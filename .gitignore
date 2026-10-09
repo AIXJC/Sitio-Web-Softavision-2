@@ -1,0 +1,25 @@
+node_modules/
+dist/
+dist-ssr/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+
+# Variants locales
+*.local
+.env
+.env.*
+
+# TypeScript
+*.tsbuildinfo
