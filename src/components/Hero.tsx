@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import posTerminal from '../assets/products/pos-terminal.jpg';
 import camara from '../assets/products/camara.jpg';
-import pcGamer from '../../assets/aigc/images/prod-computadora_1791430981_000.png';
+import laptop from '../assets/products/laptop.webp';
 
 const WORDS = ['Sistemas POS', 'Videovigilancia', 'Cómputo', 'Gaming'];
 
@@ -15,7 +15,7 @@ function Typewriter() {
   useEffect(() => {
     const word = WORDS[index % WORDS.length];
     if (!deleting && text === word) {
-      const t = setTimeout(() => setDeleting(true), 1600);
+      const t = setTimeout(() => setDeleting(true), 3400);
       return () => clearTimeout(t);
     }
     if (deleting && text === '') {
@@ -26,28 +26,38 @@ function Typewriter() {
     const t = setTimeout(
       () =>
         setText(deleting ? word.slice(0, text.length - 1) : word.slice(0, text.length + 1)),
-      deleting ? 45 : 95,
+      deleting ? 130 : 190,
     );
     return () => clearTimeout(t);
   }, [text, deleting, index]);
 
   return (
-    <span className="text-gradient">
-      {text}
-      <motion.span
-        animate={{ opacity: [1, 0] }}
-        transition={{ repeat: Infinity, duration: 0.8 }}
-        className="ml-1 inline-block w-[3px] bg-sky align-middle"
-        style={{ height: '1em' }}
-      />
+    <span className="relative inline-block" aria-live="polite">
+      {/* Reserva el ancho de la palabra más larga para que el título y los
+          botones no se muevan nunca al cambiar el texto animado.
+          El degradado vive en el texto animado (no en este contenedor) porque
+          en navegadores móviles el background-clip:text del padre no se
+          propaga a hijos posicionados y el texto se volvía invisible. */}
+      <span aria-hidden="true" className="invisible whitespace-nowrap">
+        Videovigilancia
+      </span>
+      <span className="absolute inset-0 whitespace-nowrap text-sky sm:text-gradient">
+        {text}
+        <motion.span
+          animate={{ opacity: [1, 0] }}
+          transition={{ repeat: Infinity, duration: 1.2 }}
+          className="ml-1 inline-block w-[2px] align-middle text-sky"
+          style={{ height: '1em', backgroundColor: 'currentColor' }}
+        />
+      </span>
     </span>
   );
 }
 
 const floatingCards = [
-  { image: posTerminal, className: 'left-[6%] top-[18%]', delay: 0.9, rot: -8 },
-  { image: camara, className: 'right-[8%] top-[12%]', delay: 1.1, rot: 6 },
-  { image: pcGamer, className: 'right-[14%] bottom-[10%]', delay: 1.3, rot: -5 },
+  { image: posTerminal, className: 'left-[6%] top-[18%]', delay: 0.75, rot: -8 },
+  { image: camara, className: 'right-[8%] top-[12%]', delay: 0.9, rot: 6 },
+  { image: laptop, className: 'right-[14%] bottom-[10%]', delay: 1.05, rot: -5 },
 ];
 
 export default function Hero() {
@@ -60,8 +70,8 @@ export default function Hero() {
     <section ref={ref} className="relative flex min-h-screen items-center overflow-hidden pt-24">
       <motion.div style={{ y: yBg }} className="absolute inset-0 -z-10" aria-hidden="true">
         <div className="absolute inset-0 bg-gradient-to-br from-ink via-ink-800 to-ink" />
-        <div className="absolute -left-40 top-1/4 h-96 w-96 rounded-full bg-brand/25 blur-[120px]" />
-        <div className="absolute -right-32 bottom-1/4 h-96 w-96 rounded-full bg-sky/20 blur-[120px]" />
+        <div className="absolute -left-40 top-1/4 hidden h-96 w-96 rounded-full bg-brand/25 blur-[120px] sm:block" />
+        <div className="absolute -right-32 bottom-1/4 hidden h-96 w-96 rounded-full bg-sky/20 blur-[120px] sm:block" />
         <div
           className="absolute inset-0 opacity-[0.07]"
           style={{
@@ -80,7 +90,7 @@ export default function Hero() {
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, delay: 2 }}
+            transition={{ duration: 0.7, delay: 0.6 }}
             className="mb-6 inline-flex items-center gap-2 rounded-full border border-brand/40 bg-brand/10 px-4 py-1.5 text-xs font-medium text-sky"
           >
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-sky" />
@@ -90,7 +100,7 @@ export default function Hero() {
           <motion.h1
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 2.1 }}
+            transition={{ duration: 0.8, delay: 0.7 }}
             className="text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl lg:text-6xl"
           >
             Soluciones inteligentes en <Typewriter />
@@ -99,7 +109,7 @@ export default function Hero() {
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 2.35 }}
+            transition={{ duration: 0.7, delay: 0.85 }}
             className="mt-6 max-w-lg text-base leading-relaxed text-white/65 sm:text-lg"
           >
             Instalamos, configuramos y damos soporte a sistemas de punto de venta,
@@ -110,7 +120,7 @@ export default function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 2.5 }}
+            transition={{ duration: 0.7, delay: 1 }}
             className="mt-9 flex flex-wrap gap-4"
           >
             <Link to="/tienda" className="btn-primary">
@@ -124,7 +134,7 @@ export default function Hero() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 2.8, duration: 0.8 }}
+            transition={{ delay: 1.15, duration: 0.8 }}
             className="mt-10 flex items-center gap-8 text-xs text-white/50"
           >
             <div>
@@ -155,6 +165,8 @@ export default function Hero() {
               <motion.img
                 src={card.image}
                 alt=""
+                loading="lazy"
+                decoding="async"
                 className="h-full w-full object-cover"
                 animate={{ y: [0, -12, 0] }}
                 transition={{ repeat: Infinity, duration: 4 + i, ease: 'easeInOut' }}
@@ -170,7 +182,7 @@ export default function Hero() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 3 }}
+        transition={{ delay: 1.3 }}
         className="absolute bottom-6 left-1/2 -translate-x-1/2"
       >
         <motion.div

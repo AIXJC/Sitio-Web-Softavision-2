@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="bgo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#050D22"/>
+      <stop offset="1" stop-color="#152A5C"/>
+    </linearGradient>
+    <linearGradient id="blo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1E5EFF"/>
+      <stop offset="1" stop-color="#35C8F0"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bgo)"/>
+  <circle cx="60" cy="55" r="85" fill="#1E5EFF" opacity="0.16"/>
+  <circle cx="350" cy="255" r="80" fill="#35C8F0" opacity="0.12"/>
+  <g transform="translate(138 58)">
+    <rect x="0" y="6" width="62" height="62" rx="12" fill="url(#blo)"/>
+    <text x="31" y="49" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="800" fill="#FFFFFF">O</text>
+    <rect x="76" y="6" width="62" height="62" rx="12" fill="#FFFFFF" opacity="0.92"/>
+    <text x="107" y="49" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="800" fill="#1E5EFF">365</text>
+  </g>
+  <text x="200" y="228" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#FFFFFF">Office 2024 Professional</text>
+  <text x="200" y="258" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#35C8F0">Licencia digital · 1 PC</text>
+</svg>

@@ -1,14 +1,17 @@
-import About from '../components/About';
+import { lazy, Suspense } from 'react';
 import BusinessSection from '../components/BusinessSection';
-import Contact from '../components/Contact';
-import CtaBanner from '../components/CtaBanner';
 import Hero from '../components/Hero';
-import Process from '../components/Process';
-import Projects from '../components/Projects';
 import ServicesSection from '../components/ServicesSection';
-import Solutions from '../components/Solutions';
-import StorePreview from '../components/StorePreview';
-import TechStack from '../components/TechStack';
+
+const About = lazy(() => import('../components/About'));
+const Contact = lazy(() => import('../components/Contact'));
+
+const StorePreview = lazy(() => import('../components/StorePreview'));
+const Solutions = lazy(() => import('../components/Solutions'));
+const Process = lazy(() => import('../components/Process'));
+const Projects = lazy(() => import('../components/Projects'));
+const TechStack = lazy(() => import('../components/TechStack'));
+const CtaBanner = lazy(() => import('../components/CtaBanner'));
 
 export default function HomePage() {
   return (
@@ -16,14 +19,22 @@ export default function HomePage() {
       <Hero />
       <BusinessSection />
       <ServicesSection />
-      <StorePreview />
-      <Solutions />
-      <Process />
-      <Projects />
-      <TechStack />
-      <About />
-      <CtaBanner />
-      <Contact />
+      <Suspense fallback={null}>
+        <StorePreview />
+        <Solutions />
+        <Process />
+        <Projects />
+        <TechStack />
+      </Suspense>
+      <Suspense fallback={null}>
+        <About />
+      </Suspense>
+      <Suspense fallback={null}>
+        <CtaBanner />
+      </Suspense>
+      <Suspense fallback={null}>
+        <Contact />
+      </Suspense>
     </>
   );
 }

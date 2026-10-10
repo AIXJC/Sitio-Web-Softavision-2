@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="bgm" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#050D22"/>
+      <stop offset="1" stop-color="#152A5C"/>
+    </linearGradient>
+    <linearGradient id="sdm" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1E5EFF"/>
+      <stop offset="1" stop-color="#35C8F0"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bgm)"/>
+  <circle cx="55" cy="60" r="85" fill="#35C8F0" opacity="0.12"/>
+  <path d="M200 48 L266 74 V132 C266 176 238 206 200 220 C162 206 134 176 134 132 V74 Z" fill="url(#sdm)"/>
+  <text x="200" y="152" text-anchor="middle" font-family="Arial, sans-serif" font-size="44" font-weight="800" fill="#FFFFFF">10</text>
+  <text x="200" y="260" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#FFFFFF">McAfee Total Protection</text>
+  <text x="200" y="286" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#35C8F0">1 año · hasta 10 dispositivos</text>
+</svg>

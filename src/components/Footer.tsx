@@ -49,6 +49,7 @@ export default function Footer() {
             </li>
             <li>{CONTACT.address}</li>
             <li>{CONTACT.hours}</li>
+            <li className="text-sky/90">{CONTACT.support}</li>
           </ul>
         </div>
 
@@ -61,6 +62,8 @@ export default function Footer() {
               <motion.a
                 key={s.label}
                 href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 whileHover={{ y: -3 }}
                 className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs text-white/70 transition-colors hover:border-brand/50 hover:text-white"
               >

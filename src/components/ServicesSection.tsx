@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { services } from '../data/site';
+import { useUI } from '../store/ui';
 import Reveal from './Reveal';
 
 function ServiceIcon({ type }: { type: string }) {
@@ -44,6 +45,13 @@ function ServiceIcon({ type }: { type: string }) {
           <path d="M9 15l-6 6" />
         </svg>
       );
+    case 'license':
+      return (
+        <svg {...common}>
+          <rect x="3" y="7" width="18" height="13" rx="2" />
+          <path d="M7 7V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2M7 12h4M7 15.5h7" />
+        </svg>
+      );
     default:
       return (
         <svg {...common}>
@@ -54,9 +62,17 @@ function ServiceIcon({ type }: { type: string }) {
 }
 
 export default function ServicesSection() {
+  const setInterest = useUI((s) => s.setInterest);
+
+  /** Preselecciona el servicio en el formulario y lleva al usuario a él. */
+  function goToQuote(serviceTitle: string) {
+    setInterest(serviceTitle);
+    document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth' });
+  }
+
   return (
     <section className="relative overflow-hidden py-24">
-      <div className="absolute left-0 top-1/3 h-72 w-72 rounded-full bg-brand/10 blur-[100px]" />
+      <div className="absolute left-0 top-1/3 hidden h-72 w-72 rounded-full bg-brand/10 blur-[100px] sm:block" />
       <div className="container-site">
         <Reveal className="flex flex-col items-end justify-between gap-6 sm:flex-row sm:items-end">
           <div className="max-w-xl">
@@ -92,9 +108,13 @@ export default function ServicesSection() {
                   <p className="mt-3 flex-1 text-sm leading-relaxed text-white/60">
                     {service.description}
                   </p>
-                  <span className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-sky opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <button
+                    type="button"
+                    onClick={() => goToQuote(service.title)}
+                    className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-sky opacity-100 transition-all duration-300 hover:gap-3 lg:opacity-0 lg:group-hover:opacity-100"
+                  >
                     Cotizar <span aria-hidden="true">→</span>
-                  </span>
+                  </button>
                 </div>
               </motion.article>
             </Reveal>

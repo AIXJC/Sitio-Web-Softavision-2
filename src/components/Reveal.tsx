@@ -17,14 +17,14 @@ const variants: Variants = {
   show: (custom: { delay: number; y: number }) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.7, delay: custom.delay, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.45, delay: custom.delay, ease: [0.22, 1, 0.36, 1] },
   }),
 };
 
 export default function Reveal({
   children,
   delay = 0,
-  y = 32,
+  y = 24,
   className,
   once = true,
 }: RevealProps) {
@@ -34,7 +34,7 @@ export default function Reveal({
       variants={variants}
       initial="hidden"
       whileInView="show"
-      viewport={{ once, amount: 0.2 }}
+      viewport={{ once, amount: 0.1, margin: '0px 0px -60px 0px' }}
       custom={{ delay, y }}
     >
       {children}

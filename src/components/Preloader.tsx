@@ -7,14 +7,14 @@ export default function Preloader({ onDone }: { onDone: () => void }) {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setProgress((p) => Math.min(p + 4, 100));
-    }, 40);
+      setProgress((p) => Math.min(p + 16, 100));
+    }, 28);
     return () => clearInterval(timer);
   }, []);
 
   useEffect(() => {
     if (progress >= 100) {
-      const t = setTimeout(onDone, 300);
+      const t = setTimeout(onDone, 80);
       return () => clearTimeout(t);
     }
   }, [progress, onDone]);
@@ -23,7 +23,7 @@ export default function Preloader({ onDone }: { onDone: () => void }) {
     <motion.div
       className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-ink"
       exit={{ opacity: 0, scale: 1.05 }}
-      transition={{ duration: 0.6, ease: 'easeInOut' }}
+      transition={{ duration: 0.45, ease: 'easeInOut' }}
     >
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
@@ -47,7 +47,7 @@ export default function Preloader({ onDone }: { onDone: () => void }) {
           />
         </div>
         <p className="text-xs uppercase tracking-widest text-white/50">
-          Cargando tecnología…
+          Preparando Experiencia
         </p>
       </motion.div>
     </motion.div>

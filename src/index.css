@@ -47,3 +47,11 @@ body {
   background: #1e5eff;
   border-radius: 8px;
 }
+
+/* Renderizado diferido nativo: el navegador no pinta ni maqueta las
+   secciones fuera de pantalla hasta que se acercan al viewport.
+   Acelera la carga inicial y el scroll, sobre todo en móvil. */
+main section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
+}

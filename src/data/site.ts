@@ -42,6 +42,12 @@ export const services = [
     icon: 'tools' as const,
   },
   {
+    title: 'Licencias de Software',
+    description:
+      'Windows, Office y antivirus originales con entrega inmediata e instalación asistida.',
+    icon: 'license' as const,
+  },
+  {
     title: 'Software a Medida',
     description:
       'Desarrollamos la solución digital que tu negocio necesita: sistemas de ventas, portales y automatizaciones.',

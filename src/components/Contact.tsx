@@ -1,14 +1,22 @@
 import { motion } from 'framer-motion';
 import { useState, type FormEvent } from 'react';
 import { CONTACT, whatsappLink } from '../lib/constants';
+import { services } from '../data/site';
+import { useUI } from '../store/ui';
 import Reveal from './Reveal';
+
+const EXTRA_OPTIONS = ['Otro'];
+const INTEREST_OPTIONS = [...services.map((s) => s.title), ...EXTRA_OPTIONS];
 
 export default function Contact() {
   const [sent, setSent] = useState(false);
+  const interest = useUI((s) => s.interest);
+  const setInterest = useUI((s) => s.setInterest);
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setSent(true);
+    setInterest('');
     setTimeout(() => setSent(false), 4000);
   }
 
@@ -36,6 +44,7 @@ export default function Contact() {
               { label: 'Correo', value: CONTACT.email },
               { label: 'Dirección', value: CONTACT.address },
               { label: 'Horario', value: CONTACT.hours },
+              { label: 'Soporte', value: CONTACT.support },
             ].map((row) => (
               <motion.div
                 key={row.label}
@@ -67,15 +76,19 @@ export default function Contact() {
                 placeholder="Correo electrónico"
                 className={`sm:col-span-2 ${inputClass}`}
               />
-              <select className={`sm:col-span-2 ${inputClass}`} defaultValue="">
+              <select
+                className={`sm:col-span-2 ${inputClass}`}
+                value={interest}
+                onChange={(e) => setInterest(e.target.value)}
+              >
                 <option value="" disabled>
                   Producto o servicio de interés
                 </option>
-                <option>Sistemas POS</option>
-                <option>Videovigilancia</option>
-                <option>Cómputo y gaming</option>
-                <option>Redes y soporte</option>
-                <option>Software a medida</option>
+                {INTEREST_OPTIONS.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
               </select>
               <textarea
                 required

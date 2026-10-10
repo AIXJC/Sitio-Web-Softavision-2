@@ -11,15 +11,15 @@ export const CONTACT = {
   whatsapp: '528131244540',
   email: 'alexanderucost@icloud.com',
   address: 'Nuevo León, México',
-  hours: 'Lun a Sáb · 8:00 a.m. – 6:00 p.m.',
+  hours: 'Ventas: Lun a Sáb · 8:00 a.m. – 6:00 p.m.',
+  support: 'Soporte técnico 24/7 · Los 365 días',
 } as const;
 
 
 export const SOCIAL = [
-  { label: 'Facebook', href: '#' },
-  { label: 'Instagram', href: '#' },
-  { label: 'TikTok', href: '#' },
-  { label: 'LinkedIn', href: '#' },
+  { label: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61575507816498' },
+  { label: 'Instagram', href: 'https://www.instagram.com/softavision/' },
+  // TODO: agregar TikTok y LinkedIn cuando se creen las cuentas.
 ] as const;
 
 export const NAV_LINKS = [
