@@ -302,7 +302,7 @@ Todos los derechos reservados © SOFTAVISION.
 
 <div align="center">
 
-**Hecho con ❤️ en México** 🇲🇽
+**Hecho con ❤️ - Alexander Juarez** 🇲🇽
 
 *React · TypeScript · Vite · Tailwind CSS · Framer Motion · Zustand*
 
