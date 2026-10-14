@@ -1,24 +1,78 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { useState, type FormEvent } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useMemo, useState, type FormEvent } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+import PaymentInfo from '../components/PaymentInfo';
 import ProductTitle from '../components/ProductTitle';
 import { formatPrice } from '../lib/utils';
+import { payWithCard } from '../lib/payments';
 import { selectCount, selectTotal, useCart } from '../store/carts';
 
 const inputClass =
   'w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/40 outline-none transition-colors focus:border-brand';
+
+const PAYMENT_METHODS = [
+  { id: 'transferencia', label: 'Transferencia bancaria' },
+  { id: 'efectivo', label: 'Efectivo contra entrega' },
+  { id: 'tarjeta', label: 'Tarjeta de crédito / débito' },
+] as const;
 
 export default function CheckoutPage() {
   const { items, clear } = useCart();
   const total = selectTotal(items);
   const count = selectCount(items);
   const [done, setDone] = useState(false);
+  const [method, setMethod] = useState<string>('transferencia');
+  const [paying, setPaying] = useState(false);
+  const [payError, setPayError] = useState('');
+  const [searchParams] = useSearchParams();
+
+  // Referencia y concepto automáticos para identificar cada depósito/transferencia.
+  const reference = useMemo(() => 'SV' + Date.now().toString().slice(-6), []);
+  const concept = useMemo(() => {
+    const names = Array.from(new Set(items.map((i) => i.product.name)));
+    return `SOFTAVISION · ${names.join(', ')} · Ref ${reference}`;
+  }, [items, reference]);
+
+  // El panel de datos bancarios solo aplica para transferencia.
+  const showPaymentInfo = method === 'transferencia';
+
+  // Estado devuelto por MercadoPago al regresar del checkout (?status=...).
+  const mpStatus = searchParams.get('status');
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    // Pago con tarjeta → crear preferencia en el servidor y abrir MercadoPago.
+    if (method === 'tarjeta') {
+      setPaying(true);
+      setPayError('');
+      const paymentItems = items.map((i) => ({
+        id: i.product.id,
+        title: i.product.name,
+        quantity: i.qty,
+        unit_price: i.product.price,
+        currency_id: 'MXN',
+      }));
+      payWithCard(paymentItems, reference)
+        .catch((err: Error) => {
+          setPaying(false);
+          setPayError(err.message);
+        });
+      return;
+    }
+
+    // Transferencia / efectivo → confirmación directa.
     setDone(true);
     clear();
   }
+
+  // Al regresar de MercadoPago: si el pago fue aprobado, confirmamos y vaciamos el carrito.
+  useEffect(() => {
+    if (mpStatus === 'approved') {
+      setDone(true);
+      clear();
+    }
+  }, [mpStatus, clear]);
 
   return (
     <>
@@ -88,23 +142,31 @@ export default function CheckoutPage() {
 
                   <h2 className="pt-4 text-xl font-bold">Método de pago</h2>
                   <div className="grid gap-3">
-                    {['Transferencia bancaria', 'Efectivo contra entrega', 'Tarjeta (enlace de pago)'].map(
-                      (opt, i) => (
-                        <label
-                          key={opt}
-                          className="flex cursor-pointer items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm transition-colors has-[:checked]:border-brand"
-                        >
-                          <input
-                            type="radio"
-                            name="pago"
-                            defaultChecked={i === 0}
-                            className="accent-[#1E5EFF]"
-                          />
-                          {opt}
-                        </label>
-                      ),
-                    )}
+                    {PAYMENT_METHODS.map((opt) => (
+                      <label
+                        key={opt.id}
+                        className="flex cursor-pointer items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm transition-colors has-[:checked]:border-brand"
+                      >
+                        <input
+                          type="radio"
+                          name="pago"
+                          value={opt.id}
+                          checked={method === opt.id}
+                          onChange={() => setMethod(opt.id)}
+                          className="accent-[#1E5EFF]"
+                        />
+                        {opt.label}
+                      </label>
+                    ))}
                   </div>
+
+                  <AnimatePresence>
+                    {showPaymentInfo && (
+                      <div className="pt-4">
+                        <PaymentInfo concept={concept} />
+                      </div>
+                    )}
+                  </AnimatePresence>
                 </div>
 
                 <aside className="h-fit rounded-2xl border border-white/10 bg-ink-800 p-6 lg:col-span-2 lg:sticky lg:top-28">
@@ -141,10 +203,25 @@ export default function CheckoutPage() {
                   <motion.button
                     whileTap={{ scale: 0.97 }}
                     type="submit"
-                    className="btn-primary mt-6 w-full"
+                    disabled={paying}
+                    className="btn-primary mt-6 w-full disabled:cursor-not-allowed disabled:opacity-60"
                   >
-                    Confirmar pedido
+                    {paying
+                      ? 'Redirigiendo a MercadoPago…'
+                      : method === 'tarjeta'
+                        ? 'Pagar con tarjeta'
+                        : 'Confirmar pedido'}
                   </motion.button>
+                  {payError && (
+                    <p className="mt-3 text-center text-xs text-red-400">
+                      {payError}
+                    </p>
+                  )}
+                  {method === 'tarjeta' && !payError && (
+                    <p className="mt-3 text-center text-xs text-white/40">
+                      Serás llevado a una pasarela segura para capturar tu tarjeta.
+                    </p>
+                  )}
                   <p className="mt-3 text-center text-xs text-white/40">
                     Al confirmar aceptas nuestros términos y política de privacidad.
                   </p>
