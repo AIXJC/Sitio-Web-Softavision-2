@@ -4,10 +4,12 @@ import Reveal from './Reveal';
 
 export default function Projects() {
   return (
-    <section className="relative py-24">
+    <section className="section-light curve-a py-24">
+      <span aria-hidden="true" className="bubble animate-drift-a right-[10%] top-[10%] hidden h-28 w-28 sm:block" />
+      <span aria-hidden="true" className="bubble-solid animate-float-up left-[7%] top-[65%] h-14 w-14" style={{ animationDuration: '9s' }} />
       <div className="container-site">
         <Reveal className="mx-auto max-w-2xl text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-sky">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-brand-600">
             Casos de éxito
           </p>
           <h2 className="section-title">

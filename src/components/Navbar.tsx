@@ -34,10 +34,11 @@ export default function Navbar() {
       }`}
     >
       <nav className="container-site flex h-16 items-center justify-between lg:h-20">
-        <Link to="/" className="flex items-center gap-3">
-          <Logo className="h-9 w-9" />
-          <span className="text-lg font-bold tracking-widest text-white">
-            SOFTAVISION
+        <Link to="/" className="flex shrink-0 items-center gap-3">
+          <Logo className="h-9 w-16 lg:h-10 lg:w-[4.5rem]" />
+          <span className="text-lg font-bold tracking-widest">
+            <span className="text-white">SoftA</span>
+            <span className="text-gradient">vision</span>
           </span>
         </Link>
 

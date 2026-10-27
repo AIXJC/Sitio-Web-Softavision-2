@@ -6,11 +6,20 @@ import { CATEGORIES, products, type Category } from '../data/products';
 
 export default function StorePage() {
   const [active, setActive] = useState<Category | 'todos'>('todos');
+  const [query, setQuery] = useState('');
 
-  const filtered = useMemo(
-    () => (active === 'todos' ? products : products.filter((p) => p.category === active)),
-    [active],
-  );
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return products
+      .filter((p) => active === 'todos' || p.category === active)
+      .filter(
+        (p) =>
+          !q ||
+          p.name.toLowerCase().includes(q) ||
+          p.description.toLowerCase().includes(q) ||
+          p.category.toLowerCase().includes(q),
+      );
+  }, [active, query]);
 
   return (
     <>
@@ -21,6 +30,29 @@ export default function StorePage() {
 
       <section className="py-16">
         <div className="container-site">
+          <div className="mx-auto mb-8 max-w-md">
+            <div className="relative">
+              <svg
+                className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <circle cx="11" cy="11" r="7" />
+                <path d="m21 21-4.3-4.3" strokeLinecap="round" />
+              </svg>
+              <input
+                type="search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Buscar productos..."
+                aria-label="Buscar productos"
+                className="w-full rounded-full border border-white/15 bg-white/5 py-3 pl-11 pr-4 text-sm text-white placeholder-white/40 outline-none transition-colors focus:border-brand/60"
+              />
+            </div>
+          </div>
+
           <div className="mb-10 flex flex-wrap justify-center gap-3">
             {CATEGORIES.map((cat) => (
               <motion.button
@@ -65,9 +97,20 @@ export default function StorePage() {
           </motion.div>
 
           {filtered.length === 0 && (
-            <p className="text-center text-white/50">
-              No hay productos en esta categoría.
-            </p>
+            <div className="text-center">
+              <p className="text-white/50">
+                No encontramos productos{query ? ` para “${query}”` : ''} en esta categoría.
+              </p>
+              <button
+                onClick={() => {
+                  setQuery('');
+                  setActive('todos');
+                }}
+                className="mt-4 text-sm font-semibold text-sky transition-colors hover:text-white"
+              >
+                Limpiar búsqueda
+              </button>
+            </div>
           )}
         </div>
       </section>

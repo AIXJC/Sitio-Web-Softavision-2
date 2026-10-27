@@ -1,8 +1,11 @@
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useState } from 'react';
 import { sectors } from '../data/site';
 import Reveal from './Reveal';
 
 export default function BusinessSection() {
+  const [open, setOpen] = useState<number | null>(null);
+
   return (
     <section className="relative py-24">
       <div className="container-site">
@@ -36,6 +39,54 @@ export default function BusinessSection() {
                   <p className="mt-2 text-sm leading-relaxed text-white/60">
                     {sector.description}
                   </p>
+
+                  <button
+                    onClick={() => setOpen(open === i ? null : i)}
+                    aria-expanded={open === i}
+                    className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-sky transition-colors hover:text-white"
+                  >
+                    {open === i ? 'Ocultar detalles' : 'Ver cómo se adapta a tu negocio'}
+                    <motion.span
+                      animate={{ rotate: open === i ? 180 : 0 }}
+                      transition={{ duration: 0.25 }}
+                      className="inline-flex"
+                    >
+                      ▾
+                    </motion.span>
+                  </button>
+
+                  <AnimatePresence initial={false}>
+                    {open === i && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.35, ease: 'easeInOut' }}
+                        className="overflow-hidden"
+                      >
+                        <ul className="mt-4 space-y-3 border-t border-white/10 pt-4">
+                          {sector.details.map((d) => (
+                            <li key={d.label}>
+                              <p className="text-xs font-semibold uppercase tracking-wider text-sky">
+                                {d.label}
+                              </p>
+                              <p className="mt-0.5 text-sm leading-relaxed text-white/60">
+                                {d.text}
+                              </p>
+                            </li>
+                          ))}
+                        </ul>
+                        <a
+                          href={`https://wa.me/528131244540?text=${encodeURIComponent(`Hola, me interesa la solución para ${sector.title}`)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mt-5 inline-flex text-sm font-semibold text-sky transition-transform hover:translate-x-1"
+                        >
+                          Cotizar para este giro →
+                        </a>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
                 <div className="absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-gradient-to-r from-brand to-sky transition-transform duration-500 group-hover:scale-x-100" />
               </motion.div>

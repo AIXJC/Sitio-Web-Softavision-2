@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useMotionTemplate, useMotionValue, useScroll, useSpring, useTransform } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import posTerminal from '../assets/products/pos-terminal.jpg';
@@ -54,6 +54,18 @@ function Typewriter() {
   );
 }
 
+/* Burbujas que suben flotando (CSS puro). Pocas en móvil, más en desktop. */
+const RISING_BUBBLES = [
+  { left: '6%', size: 'h-3 w-3', duration: '9s', delay: '0s', desktopOnly: false },
+  { left: '16%', size: 'h-5 w-5', duration: '12s', delay: '2s', desktopOnly: true },
+  { left: '30%', size: 'h-2 w-2', duration: '8s', delay: '1s', desktopOnly: false },
+  { left: '48%', size: 'h-4 w-4', duration: '11s', delay: '4s', desktopOnly: true },
+  { left: '63%', size: 'h-3 w-3', duration: '10s', delay: '0.5s', desktopOnly: false },
+  { left: '76%', size: 'h-6 w-6', duration: '13s', delay: '3s', desktopOnly: true },
+  { left: '88%', size: 'h-3 w-3', duration: '9s', delay: '5s', desktopOnly: false },
+  { left: '94%', size: 'h-4 w-4', duration: '12s', delay: '1.5s', desktopOnly: true },
+];
+
 const floatingCards = [
   { image: posTerminal, className: 'left-[6%] top-[18%]', delay: 0.75, rot: -8 },
   { image: camara, className: 'right-[8%] top-[12%]', delay: 0.9, rot: 6 },
@@ -66,19 +78,62 @@ export default function Hero() {
   const yBg = useTransform(scrollYProgress, [0, 1], [0, 150]);
   const yContent = useTransform(scrollYProgress, [0, 1], [0, -80]);
 
+  /* Parallax con el mouse (solo desktop: puntero fino). Suavizado con spring. */
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const sx = useSpring(mx, { stiffness: 60, damping: 18 });
+  const sy = useSpring(my, { stiffness: 60, damping: 18 });
+  const bgX = useTransform(sx, [-0.5, 0.5], [14, -14]);
+  const bgY = useTransform(sy, [-0.5, 0.5], [10, -10]);
+
+  /* Spotlight suave que sigue al cursor e ilumina la cuadrícula (solo
+     visible en pantallas grandes; en móvil el puntero no se mueve). */
+  const spotX = useTransform(sx, [-0.5, 0.5], ['18%', '82%']);
+  const spotY = useTransform(sy, [-0.5, 0.5], ['25%', '70%']);
+  const spotBg = useMotionTemplate`radial-gradient(26rem 26rem at ${spotX} ${spotY}, rgba(53, 200, 240, 0.14), transparent 70%)`;
+
+  function handleMouse(e: React.MouseEvent<HTMLElement>) {
+    if (!window.matchMedia('(pointer: fine)').matches) return;
+    const r = ref.current?.getBoundingClientRect();
+    if (!r) return;
+    mx.set((e.clientX - r.left) / r.width - 0.5);
+    my.set((e.clientY - r.top) / r.height - 0.5);
+  }
+
   return (
-    <section ref={ref} className="relative flex min-h-screen items-center overflow-hidden pt-24">
-      <motion.div style={{ y: yBg }} className="absolute inset-0 -z-10" aria-hidden="true">
+    <section
+      ref={ref}
+      onMouseMove={handleMouse}
+      className="relative flex min-h-screen items-center overflow-hidden pt-24"
+    >
+      <motion.div style={{ y: yBg, x: bgX }} className="absolute inset-0 -z-10" aria-hidden="true">
         <div className="absolute inset-0 bg-gradient-to-br from-ink via-ink-800 to-ink" />
-        <div className="absolute -left-40 top-1/4 hidden h-96 w-96 rounded-full bg-brand/25 blur-[120px] sm:block" />
-        <div className="absolute -right-32 bottom-1/4 hidden h-96 w-96 rounded-full bg-sky/20 blur-[120px] sm:block" />
-        <div
-          className="absolute inset-0 opacity-[0.07]"
-          style={{
-            backgroundImage:
-              'linear-gradient(#35C8F0 1px, transparent 1px), linear-gradient(90deg, #35C8F0 1px, transparent 1px)',
-            backgroundSize: '56px 56px',
-          }}
+        <div className="animate-drift-a absolute -left-40 top-1/4 hidden h-96 w-96 rounded-full bg-brand/25 blur-[120px] sm:block" />
+        <div className="animate-drift-b absolute -right-32 bottom-1/4 hidden h-96 w-96 rounded-full bg-sky/20 blur-[120px] sm:block" />
+        <motion.div style={{ y: bgY }} className="absolute inset-0">
+          <div
+            className="absolute inset-0 opacity-[0.07]"
+            style={{
+              backgroundImage:
+                'linear-gradient(#35C8F0 1px, transparent 1px), linear-gradient(90deg, #35C8F0 1px, transparent 1px)',
+              backgroundSize: '56px 56px',
+            }}
+          />
+        </motion.div>
+        {/* Burbujas subiendo: 4 en móvil, 8 en desktop */}
+        {RISING_BUBBLES.map((b, i) => (
+          <span
+            key={i}
+            aria-hidden="true"
+            className={`animate-float-up absolute bottom-[-2rem] rounded-full border border-sky/30 bg-sky/10 ${b.size} ${b.desktopOnly ? 'hidden sm:block' : ''}`}
+            style={{ left: b.left, animationDuration: b.duration, animationDelay: b.delay }}
+          />
+        ))}
+        {/* Spotlight que sigue al cursor (pack premium, solo desktop) */}
+        <motion.div
+          aria-hidden="true"
+          className="absolute inset-0 hidden sm:block"
+          style={{ background: spotBg }}
         />
       </motion.div>
 

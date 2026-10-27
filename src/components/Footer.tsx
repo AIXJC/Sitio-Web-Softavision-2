@@ -1,39 +1,25 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { BRAND, CONTACT, NAV_LINKS, SOCIAL, whatsappLink } from '../lib/constants';
+import { BRAND, CONTACT, SOCIAL, whatsappLink } from '../lib/constants';
 import Logo from './Logo';
+import SocialIcon from './SocialIcon';
 
 export default function Footer() {
   return (
     <footer className="relative border-t border-white/10 bg-ink-800">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand to-transparent" />
-      <div className="container-site grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="container-site grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-3">
         <div>
           <div className="flex items-center gap-3">
-            <Logo className="h-10 w-10" />
-            <span className="text-lg font-bold tracking-widest">{BRAND.name}</span>
+            <Logo className="h-9 w-16" />
+            <span className="text-lg font-bold tracking-widest">
+              <span className="text-white">SoftA</span>
+              <span className="text-gradient">vision</span>
+            </span>
           </div>
           <p className="mt-4 text-sm leading-relaxed text-white/60">
             {BRAND.description}
           </p>
-        </div>
-
-        <div>
-          <h4 className="mb-4 text-sm font-semibold uppercase tracking-wider text-white/80">
-            Navegación
-          </h4>
-          <ul className="space-y-2.5">
-            {NAV_LINKS.map((l) => (
-              <li key={l.to}>
-                <Link
-                  to={l.to}
-                  className="text-sm text-white/60 transition-colors hover:text-sky"
-                >
-                  {l.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
         </div>
 
         <div>
@@ -64,10 +50,12 @@ export default function Footer() {
                 href={s.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ y: -3 }}
-                className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs text-white/70 transition-colors hover:border-brand/50 hover:text-white"
+                aria-label={s.label}
+                whileHover={{ y: -3, scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/80 transition-colors hover:border-brand/50 hover:text-white hover:shadow-lg hover:shadow-brand/20"
               >
-                {s.label}
+                <SocialIcon name={s.icon} className="h-5 w-5" />
               </motion.a>
             ))}
           </div>

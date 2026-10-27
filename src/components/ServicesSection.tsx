@@ -71,19 +71,22 @@ export default function ServicesSection() {
   }
 
   return (
-    <section className="relative overflow-hidden py-24">
+    <section className="section-light curve-a py-24">
+      <span aria-hidden="true" className="bubble animate-drift-a right-[8%] top-[12%] hidden h-24 w-24 sm:block" />
+      <span aria-hidden="true" className="bubble-solid animate-drift-b left-[5%] top-[55%] hidden h-16 w-16 sm:block" />
+      <span aria-hidden="true" className="bubble-solid animate-float-up right-[12%] top-[38%] h-10 w-10" style={{ animationDuration: '10s' }} />
       <div className="absolute left-0 top-1/3 hidden h-72 w-72 rounded-full bg-brand/10 blur-[100px] sm:block" />
       <div className="container-site">
         <Reveal className="flex flex-col items-end justify-between gap-6 sm:flex-row sm:items-end">
           <div className="max-w-xl">
-            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-sky">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-brand-600">
               Nuestros servicios
             </p>
             <h2 className="section-title">
               Todo lo que tu negocio <span className="text-gradient">necesita</span>
             </h2>
           </div>
-          <p className="max-w-sm text-sm leading-relaxed text-white/60">
+          <p className="max-w-sm text-sm leading-relaxed text-ink/60">
             Un solo aliado para hardware, software, instalación y soporte técnico
             continuo.
           </p>
@@ -95,23 +98,24 @@ export default function ServicesSection() {
               <motion.article
                 whileHover={{ y: -10 }}
                 transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-                className="group relative h-full overflow-hidden rounded-2xl border border-white/10 bg-ink-800/70 p-7 backdrop-blur"
+                className="group relative h-full overflow-hidden rounded-3xl border border-ink/10 bg-white p-7 shadow-xl shadow-brand/10 transition-shadow duration-500 hover:shadow-2xl hover:shadow-brand/20"
               >
                 <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                  <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-brand/25 blur-3xl" />
+                  <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-sky/30 blur-3xl" />
+                  <div className="absolute -bottom-12 -left-12 h-40 w-40 rounded-full bg-brand/10 blur-3xl" />
                 </div>
                 <div className="relative flex h-full flex-col">
-                  <span className="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-brand to-sky text-white shadow-lg shadow-brand/25 transition-transform duration-300 group-hover:scale-110">
+                  <span className="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-brand to-sky text-white shadow-lg shadow-brand/30 transition-transform duration-300 group-hover:rotate-3 group-hover:scale-110">
                     <ServiceIcon type={service.icon} />
                   </span>
-                  <h3 className="text-lg font-semibold">{service.title}</h3>
-                  <p className="mt-3 flex-1 text-sm leading-relaxed text-white/60">
+                  <h3 className="text-lg font-bold text-ink">{service.title}</h3>
+                  <p className="mt-3 flex-1 text-sm leading-relaxed text-ink/65">
                     {service.description}
                   </p>
                   <button
                     type="button"
                     onClick={() => goToQuote(service.title)}
-                    className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-sky opacity-100 transition-all duration-300 hover:gap-3 lg:opacity-0 lg:group-hover:opacity-100"
+                    className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-brand-600 opacity-100 transition-all duration-300 hover:gap-3 hover:text-brand lg:opacity-0 lg:group-hover:opacity-100"
                   >
                     Cotizar <span aria-hidden="true">→</span>
                   </button>

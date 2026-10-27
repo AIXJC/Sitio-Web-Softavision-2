@@ -26,19 +26,22 @@ function Counter({ value, suffix }: { value: number; suffix: string }) {
 
 export default function About() {
   return (
-    <section className="relative overflow-hidden py-24">
+    <section className="section-light curve-b py-24">
+      <span aria-hidden="true" className="bubble animate-drift-b left-[8%] top-[12%] hidden h-24 w-24 sm:block" />
+      <span aria-hidden="true" className="bubble-solid animate-drift-a right-[9%] top-[58%] hidden h-16 w-16 sm:block" />
+      <span aria-hidden="true" className="bubble animate-float-up right-[20%] top-[70%] h-10 w-10" style={{ animationDuration: '12s' }} />
       <div className="absolute right-0 top-0 h-80 w-80 rounded-full bg-sky/10 blur-[110px]" />
       <div className="container-site">
         <div className="grid items-center gap-14 lg:grid-cols-2">
           <Reveal>
-            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-sky">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-brand-600">
               ¿Quiénes somos?
             </p>
             <h2 className="section-title">
               El aliado tecnológico de{' '}
               <span className="text-gradient">tu negocio</span>
             </h2>
-            <p className="mt-5 leading-relaxed text-white/65">
+            <p className="mt-5 leading-relaxed text-ink/65">
               En SOFTAVISION llevamos años equipando comercios, restaurantes y oficinas
               con sistemas POS, videovigilancia y equipos de cómputo. No solo vendemos
               hardware: diseñamos, instalamos y acompañamos cada solución para que
@@ -49,11 +52,11 @@ export default function About() {
                 <motion.div
                   key={item.title}
                   whileHover={{ y: -6 }}
-                  className="rounded-xl border border-white/10 bg-white/5 p-4"
+                  className="rounded-xl border border-ink/10 bg-white p-4 shadow-lg shadow-brand/5"
                 >
                   <div className="mb-2 h-1 w-8 rounded bg-gradient-to-r from-brand to-sky" />
-                  <h3 className="text-sm font-semibold text-white">{item.title}</h3>
-                  <p className="mt-1 text-xs leading-relaxed text-white/55">
+                  <h3 className="text-sm font-semibold text-ink">{item.title}</h3>
+                  <p className="mt-1 text-xs leading-relaxed text-ink/55">
                     {item.description}
                   </p>
                 </motion.div>

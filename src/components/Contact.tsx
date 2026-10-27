@@ -67,6 +67,9 @@ export default function Contact() {
             className="card relative overflow-hidden p-7"
           >
             <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-brand/20 blur-3xl" />
+            <p className="relative mb-5 text-sm font-semibold text-white">
+              Solicita tu cotización <span className="font-normal text-white/50">— respuesta en menos de 24 h</span>
+            </p>
             <div className="relative grid gap-4 sm:grid-cols-2">
               <input required placeholder="Nombre" className={inputClass} />
               <input required placeholder="Teléfono" className={inputClass} />
@@ -101,7 +104,7 @@ export default function Contact() {
                 type="submit"
                 className="btn-primary sm:col-span-2"
               >
-                {sent ? '✓ Mensaje enviado' : 'Enviar mensaje'}
+                {sent ? '✓ Mensaje enviado' : 'Enviar mensaje →'}
               </motion.button>
             </div>
             <a

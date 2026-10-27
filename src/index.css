@@ -6,6 +6,20 @@
   color-scheme: dark;
 }
 
+/* Ángulo animable para el borde luminoso de las cards (conic-gradient).
+   Registrado con @property para que el navegador lo interpole. */
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes border-spin {
+  to {
+    --angle: 360deg;
+  }
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -25,8 +39,59 @@ body {
   .btn-ghost {
     @apply inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition-colors hover:border-brand/60 hover:bg-brand/10;
   }
+  /* Destello diagonal que cruza el botón al hacer hover (pack premium) */
+  .btn-primary,
+  .btn-ghost {
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary::after,
+  .btn-ghost::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(115deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+    transform: skewX(-20deg);
+    transition: left 0.6s ease;
+    pointer-events: none;
+  }
+  .btn-primary:hover::after,
+  .btn-ghost:hover::after {
+    left: 130%;
+  }
   .card {
-    @apply rounded-2xl border border-white/10 bg-white/5 backdrop-blur;
+    @apply relative rounded-2xl border border-white/10 bg-white/5 backdrop-blur;
+  }
+  /* Borde luminoso degradado que se enciende al hover (pack premium).
+     Sin hover = sin costo: el pseudo-elemento solo se pinta en :hover. */
+  .card::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: conic-gradient(
+      from var(--angle, 0deg),
+      transparent 0%,
+      rgba(30, 94, 255, 0.9) 15%,
+      rgba(53, 200, 240, 0.9) 30%,
+      transparent 45%
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+  .card:hover::after {
+    opacity: 1;
+    animation: border-spin 3.5s linear infinite;
   }
   .section-title {
     @apply text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl;
@@ -34,11 +99,195 @@ body {
   .text-gradient {
     @apply bg-gradient-to-r from-brand via-sky to-cyan-300 bg-clip-text text-transparent;
   }
+
+  /* ——— Secciones claras intercaladas ———
+     Fondo blanco con degradados suaves, manchas (blobs) y gotas de agua,
+     todo en CSS puro (radial-gradients): 0 KB extra, rapidísimo en móvil. */
+  .section-light {
+    @apply relative overflow-hidden text-ink;
+    background:
+      radial-gradient(42rem 22rem at 8% -4%, rgba(30, 94, 255, 0.1), transparent 60%),
+      radial-gradient(36rem 20rem at 95% 12%, rgba(53, 200, 240, 0.16), transparent 60%),
+      radial-gradient(30rem 18rem at 50% 110%, rgba(30, 94, 255, 0.08), transparent 60%),
+      linear-gradient(180deg, #ffffff 0%, #f2f7ff 55%, #e9f3ff 100%);
+  }
+  /* Manchas orgánicas grandes (efecto acuarela) */
+  .section-light::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(16rem 16rem at 12% 30%, rgba(53, 200, 240, 0.14), transparent 70%),
+      radial-gradient(20rem 20rem at 88% 68%, rgba(30, 94, 255, 0.1), transparent 70%),
+      radial-gradient(10rem 10rem at 70% 20%, rgba(53, 200, 240, 0.1), transparent 70%);
+  }
+  /* Gotas de agua: puntitos sutiles repartidos */
+  .section-light::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.5;
+    background-image: radial-gradient(rgba(30, 94, 255, 0.16) 1.5px, transparent 1.6px);
+    background-size: 34px 34px;
+    mask-image: radial-gradient(30rem 16rem at 20% 15%, black, transparent 70%),
+      radial-gradient(28rem 15rem at 85% 80%, black, transparent 70%);
+  }
+  /* El contenido siempre por encima de las decoraciones */
+  .section-light > .container-site {
+    @apply relative z-10;
+  }
+  /* Textos adaptados al fondo claro */
+  .section-light .section-title {
+    @apply text-ink;
+  }
+  .section-light .section-title .text-gradient {
+    @apply from-brand-600 via-brand to-sky;
+  }
+  .section-light .muted-on-light {
+    @apply text-ink/60;
+  }
+
+  /* ——— Curvas asimétricas entre secciones ———
+     Cada sección clara "abraza" a la anterior con un arco grande desplazado.
+     Solo border-radius + margen negativo: 0 KB, rapidísimo en móvil.
+     Ojo: content-visibility + border-radius + margen negativo pueden
+     recortar el arco en algunos navegadores, así que las secciones con
+     curva quedan excluidas del renderizado diferido (ver abajo). */
+  .curve-a {
+    border-top-left-radius: 3.5rem;
+    border-top-right-radius: 7rem;
+    margin-top: -2rem;
+    padding-top: 6rem;
+  }
+  .curve-b {
+    border-top-left-radius: 7rem;
+    border-top-right-radius: 3.5rem;
+    margin-top: -2rem;
+    padding-top: 6rem;
+  }
+  @media (min-width: 640px) {
+    .curve-a {
+      border-top-left-radius: 6rem;
+      border-top-right-radius: 12rem;
+      margin-top: -3rem;
+      padding-top: 7rem;
+    }
+    .curve-b {
+      border-top-left-radius: 12rem;
+      border-top-right-radius: 6rem;
+      margin-top: -3rem;
+      padding-top: 7rem;
+    }
+  }
+  /* Burbujas decorativas (efecto agua) */
+  .bubble {
+    @apply pointer-events-none absolute rounded-full border border-sky/25 bg-sky/10;
+  }
+  .bubble-solid {
+    @apply pointer-events-none absolute rounded-full bg-gradient-to-br from-brand/15 to-sky/25;
+  }
+
+  /* ——— Pack "Fondo vivo": burbujas flotantes + blobs a la deriva ———
+     Todo CSS puro (keyframes): 0 JS, GPU-friendly, y en móvil se reduce
+     la cantidad vía clases hidden/sm:block en cada componente. */
+  @keyframes float-up {
+    0% {
+      transform: translateY(0) translateX(0) scale(1);
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.7;
+    }
+    85% {
+      opacity: 0.5;
+    }
+    100% {
+      transform: translateY(-46rem) translateX(2rem) scale(1.15);
+      opacity: 0;
+    }
+  }
+  @keyframes drift-a {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(3rem, -2rem) scale(1.1);
+    }
+  }
+  @keyframes drift-b {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1.05);
+    }
+    50% {
+      transform: translate(-2.5rem, 2rem) scale(0.95);
+    }
+  }
+  .animate-float-up {
+    animation: float-up linear infinite;
+  }
+  .animate-drift-a {
+    animation: drift-a 11s ease-in-out infinite;
+  }
+  .animate-drift-b {
+    animation: drift-b 14s ease-in-out infinite;
+  }
+  /* Brillo estático en móvil (visible sin animación, sin conflictos con
+     backdrop-filter); pulso animado solo en pantallas ≥640px. */
+  .logo-glow {
+    filter: drop-shadow(0 0 5px rgba(56, 165, 255, 0.55));
+  }
+  @media (min-width: 640px) {
+    .logo-glow {
+      animation: logo-glow 3.5s ease-in-out infinite;
+    }
+  }
+  @keyframes logo-glow {
+    0%,
+    100% {
+      filter: drop-shadow(0 0 4px rgba(30, 94, 255, 0.35));
+    }
+    50% {
+      filter: drop-shadow(0 0 12px rgba(56, 165, 255, 0.75));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-float-up,
+    .animate-drift-a,
+    .animate-drift-b,
+    .logo-glow {
+      animation: none;
+    }
+    .card:hover::after {
+      animation: none;
+    }
+    .btn-primary::after,
+    .btn-ghost::after {
+      transition: none;
+    }
+  }
 }
 
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
+}
+
+/* ——— Grano cinematográfico (pack premium) ———
+   Textura de ruido generada con feTurbulence embebido en un data-URI SVG:
+   ~1 KB, sin requests externos, sin costo de decodificación.
+   Opacidad muy baja (3%) para dar "grano de película" sin ensuciar el
+   texto. Sin mix-blend-mode a propósito: el blend sobre un fixed covering
+   toda la página obliga a recomponer todo el viewport y cuesta en móviles. */
+.grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+  opacity: 0.03;
 }
 ::-webkit-scrollbar-track {
   background: #050d22;
@@ -50,8 +299,10 @@ body {
 
 /* Renderizado diferido nativo: el navegador no pinta ni maqueta las
    secciones fuera de pantalla hasta que se acercan al viewport.
-   Acelera la carga inicial y el scroll, sobre todo en móvil. */
-main section {
+   Acelera la carga inicial y el scroll, sobre todo en móvil.
+   Las secciones con curva asimétrica quedan excluidas: el margen negativo
+   + border-radius se recortaría al diferir el pintado. */
+main section:not(.curve-a):not(.curve-b) {
   content-visibility: auto;
   contain-intrinsic-size: auto 800px;
 }

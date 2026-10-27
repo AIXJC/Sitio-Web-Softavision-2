@@ -25,6 +25,11 @@ export default function ProductCard({ product }: { product: Product }) {
         <span className="absolute left-3 top-3 rounded-full bg-ink/80 px-3 py-1 text-[11px] font-medium text-sky backdrop-blur">
           {product.categoryLabel}
         </span>
+        {product.featured && (
+          <span className="absolute right-3 top-3 rounded-full bg-gradient-to-r from-brand to-sky px-3 py-1 text-[11px] font-bold text-white shadow-lg shadow-brand/40">
+            ★ Destacado
+          </span>
+        )}
         {/* efecto escáner */}
         <span className="pointer-events-none absolute inset-x-0 top-0 h-8 animate-scan bg-gradient-to-b from-sky/30 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
       </Link>

@@ -31,14 +31,15 @@ export default function Preloader({ onDone }: { onDone: () => void }) {
         transition={{ duration: 0.5 }}
         className="flex flex-col items-center gap-6"
       >
-        <Logo className="h-20 w-20" animated />
+        <Logo className="h-16 w-32 sm:h-20 sm:w-40" animated />
         <motion.h1
-          className="text-2xl font-bold tracking-[0.35em] text-white sm:text-3xl"
+          className="text-2xl font-bold tracking-[0.35em] sm:text-3xl"
           initial={{ opacity: 0, letterSpacing: '0.6em' }}
           animate={{ opacity: 1, letterSpacing: '0.35em' }}
           transition={{ delay: 0.4, duration: 0.8 }}
         >
-          SOFTAVISION
+          <span className="text-white">SoftA</span>
+          <span className="text-gradient">vision</span>
         </motion.h1>
         <div className="h-1 w-56 overflow-hidden rounded-full bg-white/10">
           <motion.div

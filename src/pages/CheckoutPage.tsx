@@ -24,6 +24,14 @@ export default function CheckoutPage() {
   const [method, setMethod] = useState<string>('transferencia');
   const [paying, setPaying] = useState(false);
   const [payError, setPayError] = useState('');
+  const [emailSent, setEmailSent] = useState(false);
+  const [customerData, setCustomerData] = useState<{
+    name: string;
+    email: string;
+    phone: string;
+    address: string;
+    city: string;
+  }>({ name: '', email: '', phone: '', address: '', city: '' });
   const [searchParams] = useSearchParams();
 
   // Referencia y concepto automáticos para identificar cada depósito/transferencia.
@@ -39,8 +47,63 @@ export default function CheckoutPage() {
   // Estado devuelto por MercadoPago al regresar del checkout (?status=...).
   const mpStatus = searchParams.get('status');
 
+  // Construye los datos del cliente a partir del formulario (antes de vaciar el carrito).
+  function buildCustomerData(formData: FormData) {
+    return {
+      name: (formData.get('customer-name') as string) || '',
+      email: (formData.get('customer-email') as string) || '',
+      phone: (formData.get('customer-phone') as string) || '',
+      address: (formData.get('customer-address') as string) || '',
+      city: (formData.get('customer-city') as string) || '',
+    };
+  }
+
+  // Envía notificación de pedido al correo del admin (backend).
+  async function sendOrderNotification(data: {
+    items: typeof items;
+    total: number;
+    count: number;
+    method: string;
+    reference: string;
+    concept: string;
+    customer: typeof customerData;
+  }) {
+    try {
+      const resp = await fetch('/api/send-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          tipo: 'pedido',
+          datos: {
+            items: data.items.map((i) => ({
+              title: i.product.name,
+              qty: i.qty,
+              price: i.product.price,
+            })),
+            total: data.total,
+            count: data.count,
+            method: data.method,
+            reference: data.reference,
+            concept: data.concept,
+            customer: data.customer,
+          },
+        }),
+      });
+      if (resp.ok) {
+        setEmailSent(true);
+      } else {
+        console.error('Resend respondió con error:', await resp.text());
+      }
+    } catch (err) {
+      console.error('Error enviando notificación de pedido:', err);
+    }
+  }
+
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    const formData = new FormData(e.currentTarget as HTMLFormElement);
+    setCustomerData(buildCustomerData(formData));
 
     // Pago con tarjeta → crear preferencia en el servidor y abrir MercadoPago.
     if (method === 'tarjeta') {
@@ -61,15 +124,33 @@ export default function CheckoutPage() {
       return;
     }
 
-    // Transferencia / efectivo → confirmación directa.
+    // Transferencia / efectivo → confirmación directa y envío de correo.
     setDone(true);
+    void sendOrderNotification({
+      items,
+      total,
+      count,
+      method,
+      reference,
+      concept,
+      customer: customerData,
+    });
     clear();
   }
 
-  // Al regresar de MercadoPago: si el pago fue aprobado, confirmamos y vaciamos el carrito.
+  // Al regresar de MercadoPago: si el pago fue aprobado, confirmamos y enviamos correo.
   useEffect(() => {
     if (mpStatus === 'approved') {
       setDone(true);
+      void sendOrderNotification({
+        items,
+        total,
+        count,
+        method,
+        reference,
+        concept,
+        customer: customerData,
+      });
       clear();
     }
   }, [mpStatus, clear]);
@@ -132,11 +213,37 @@ export default function CheckoutPage() {
                 <div className="space-y-5 lg:col-span-3">
                   <h2 className="text-xl font-bold">Datos de contacto</h2>
                   <div className="grid gap-4 sm:grid-cols-2">
-                    <input required placeholder="Nombre completo" className={inputClass} />
-                    <input required placeholder="Teléfono" className={inputClass} />
-                    <input required type="email" placeholder="Correo" className={`sm:col-span-2 ${inputClass}`} />
-                    <input required placeholder="Dirección" className={`sm:col-span-2 ${inputClass}`} />
-                    <input required placeholder="Ciudad" className={inputClass} />
+                    <input
+                      required
+                      name="customer-name"
+                      placeholder="Nombre completo"
+                      className={inputClass}
+                    />
+                    <input
+                      required
+                      name="customer-phone"
+                      placeholder="Teléfono"
+                      className={inputClass}
+                    />
+                    <input
+                      required
+                      name="customer-email"
+                      type="email"
+                      placeholder="Correo"
+                      className={`sm:col-span-2 ${inputClass}`}
+                    />
+                    <input
+                      required
+                      name="customer-address"
+                      placeholder="Dirección"
+                      className={`sm:col-span-2 ${inputClass}`}
+                    />
+                    <input
+                      required
+                      name="customer-city"
+                      placeholder="Ciudad"
+                      className={`sm:col-span-2 ${inputClass}`}
+                    />
                     <input placeholder="Notas para la entrega" className={inputClass} />
                   </div>
 

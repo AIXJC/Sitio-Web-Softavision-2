@@ -25,16 +25,19 @@ const solutions = [
 
 export default function Solutions() {
   return (
-    <section className="relative py-24">
+    <section className="section-light curve-b py-24">
+      <span aria-hidden="true" className="bubble animate-drift-b left-[10%] top-[14%] hidden h-20 w-20 sm:block" />
+      <span aria-hidden="true" className="bubble-solid animate-drift-a right-[6%] top-[60%] hidden h-24 w-24 sm:block" />
+      <span aria-hidden="true" className="bubble animate-float-up left-[16%] top-[60%] h-12 w-12" style={{ animationDuration: '11s' }} />
       <div className="container-site">
         <Reveal className="mx-auto max-w-2xl text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-sky">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-brand-600">
             Soluciones
           </p>
           <h2 className="section-title">
             Paquetes listos para <span className="text-gradient">operar</span>
           </h2>
-          <p className="mt-4 text-white/60">
+          <p className="mt-4 text-ink/60">
             Combinamos equipos, software e instalación en paquetes cerrados con precio
             claro.
           </p>
@@ -45,7 +48,7 @@ export default function Solutions() {
             <Reveal key={sol.title} delay={i * 0.12}>
               <motion.div
                 whileHover={{ y: -10 }}
-                className="group relative h-full overflow-hidden rounded-3xl border border-white/10"
+                className="group relative h-full overflow-hidden rounded-3xl border border-ink/10 bg-ink shadow-xl shadow-brand/10"
               >
                 <div className="relative h-52 overflow-hidden">
                   <motion.img
