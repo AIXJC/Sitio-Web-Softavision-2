@@ -29,6 +29,7 @@ Diseño *dark-first* responsive, carrito de compras persistente y animaciones co
 - 🛍 **Catálogo con 22 productos** en 5 categorías (POS, Videovigilancia, Cómputo, Accesorios, Licencias) con filtros animados y buscador
 - 🛒 **Carrito persistente** con Zustand + `localStorage`: sobrevive al recargar la página
 - 🗂 **Drawer lateral del carrito** con física *spring* que se abre al agregar un producto
+- 📚 **Recursos útiles**: sección con enlaces directos a software y herramientas recomendadas (ej. Herramientas de Office)
 - 💳 **Checkout** con formulario, 3 métodos de pago (transferencia, efectivo, tarjeta vía MercadoPago), resumen de pedido y confirmación animada
 - 💰 **Precios dinámicos** desde `/api/precios` (proveedor abasteo.mx × margen de ganancia), aplicados una sola vez para evitar cobros duplicados
 - 🛡 **Error Boundary**: si un componente falla, el sitio no se rompe por completo y ofrece recargar
@@ -145,6 +146,7 @@ softavision-web/
 │   │   └── NotFoundPage.tsx    # Página 404 personalizada
 │   ├── data/                   # Datos estáticos
 │   │   ├── products.ts         # Catálogo de productos (22 items)
+│   │   ├── resources.ts        # Recursos y descargas recomendadas
 │   │   └── site.ts             # Stats, servicios, proyectos, proceso
 │   ├── lib/                    # Utilidades y lógica
 │   │   ├── constants.ts        # Marca, contacto, redes, navegación

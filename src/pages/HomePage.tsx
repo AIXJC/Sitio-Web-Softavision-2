@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react';
 import BusinessSection from '../components/BusinessSection';
 import Hero from '../components/Hero';
+import ResourcesSection from '../components/ResourcesSection';
 import ServicesSection from '../components/ServicesSection';
 
 const About = lazy(() => import('../components/About'));
@@ -19,6 +20,7 @@ export default function HomePage() {
       <Hero />
       <BusinessSection />
       <ServicesSection />
+      <ResourcesSection />
       <Suspense fallback={null}>
         <StorePreview />
         <Solutions />
