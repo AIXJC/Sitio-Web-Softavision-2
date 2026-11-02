@@ -52,6 +52,13 @@ function ServiceIcon({ type }: { type: string }) {
           <path d="M7 7V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2M7 12h4M7 15.5h7" />
         </svg>
       );
+    case 'phone':
+      return (
+        <svg {...common}>
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2l-10.89-10.89a2 2 0 0 0-2-2V3a2 2 0 0 0-2-2h-3a2 2 0 0 0-2 2v10.89a2 2 0 0 0 2 2l10.89 10.89a2 2 0 0 0 2 2h3a2 2 0 0 0 2-2v-3a2 2 0 0 1 2-2z" />
+          <line x1="23" x2="17" y1="9" y2="15" />
+        </svg>
+      );
     default:
       return (
         <svg {...common}>

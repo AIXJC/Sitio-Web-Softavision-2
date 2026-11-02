@@ -45,14 +45,27 @@ export default function ProductCard({ product }: { product: Product }) {
         </p>
         <div className="mt-4 flex items-center justify-between gap-3">
           <span className="text-lg font-bold text-gradient">{formatPrice(product.price)}</span>
-          <motion.button
-            whileTap={{ scale: 0.92 }}
-            onClick={() => add(product)}
-            className="rounded-lg bg-brand px-3.5 py-2 text-xs font-semibold text-white transition-colors hover:bg-brand-600"
-            aria-label={`Agregar ${product.name} al carrito`}
-          >
-            + Agregar
-          </motion.button>
+          <div className="flex gap-2">
+            {product.specSheet && (
+              <a
+                href={product.specSheet}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg bg-white/10 px-3.5 py-2 text-xs font-semibold text-white transition-colors hover:bg-white/20 border border-white/10"
+                aria-label={`Ver especificaciones de ${product.name}`}
+              >
+                Especificaciones →
+              </a>
+            )}
+            <motion.button
+              whileTap={{ scale: 0.92 }}
+              onClick={() => add(product)}
+              className="rounded-lg bg-brand px-3.5 py-2 text-xs font-semibold text-white transition-colors hover:bg-brand-600"
+              aria-label={`Agregar ${product.name} al carrito`}
+            >
+              + Agregar
+            </motion.button>
+          </div>
         </div>
       </div>
     </motion.article>

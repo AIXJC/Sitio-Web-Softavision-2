@@ -53,6 +53,24 @@ export const services = [
       'Desarrollamos la solución digital que tu negocio necesita: sistemas de ventas, portales y automatizaciones.',
     icon: 'code' as const,
   },
+  {
+    title: 'Mantenimiento de Consolas y Reparaciones',
+    description:
+      'Reparación y mantenimiento de consolas de videojuegos, equipos de cómputo y dispositivos electrónicos. Diagnóstico rápido y garantía por escrito.',
+    icon: 'tools' as const,
+  },
+  {
+    title: 'Instalación de Cámaras de Seguridad',
+    description:
+      'Instalación profesional de sistemas de videovigilancia: cámaras IP, NVR/DVR, cableado estructurado y acceso remoto desde tu celular.',
+    icon: 'camera' as const,
+  },
+  {
+    title: 'Atención Multicanal 24/7',
+    description:
+      'Escríbenos por WhatsApp, llámanos directamente o contáctanos por correo electrónico. Estamos disponibles los 365 días del año para soporte y cotizaciones.',
+    icon: 'phone' as const,
+  },
 ];
 
 export interface Sector {

@@ -10,12 +10,14 @@
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
 ![Framer Motion](https://img.shields.io/badge/Framer_Motion-11-0055FF?style=flat-square&logo=framer&logoColor=white)
 ![Zustand](https://img.shields.io/badge/Zustand-5.0-443E38?style=flat-square&logo=zustand&logoColor=white)
+![Vitest](https://img.shields.io/badge/Vitest-3-646CFF?style=flat-square&logo=vitest&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-CI-2088FF?style=flat-square&logo=github-actions&logoColor=white)
 
 Landing corporativa + e-commerce animado para **SOFTAVISION**: sistemas POS, videovigilancia, cómputo y accesorios en México 🇲🇽
 
 Diseño *dark-first* responsive, carrito de compras persistente y animaciones con Framer Motion.
 
-[✨ Características](#-características) · [🚀 Inicio rápido](#-inicio-rápido) · [📁 Estructura](#-estructura-del-proyecto) · [🗺 Rutas](#-rutas) · [🧠 Cómo funciona](#-cómo-funciona-todo) · [📦 Despliegue](#-despliegue)
+[✨ Características](#-características) · [🚀 Inicio rápido](#-inicio-rápido) · [📁 Estructura](#-estructura-del-proyecto) · [🗺 Rutas](#-rutas) · [🧠 Cómo funciona](#-cómo-funciona-todo) · [🧪 Pruebas](#-pruebas) · [📦 Despliegue](#-despliegue)
 
 </div>
 
@@ -24,10 +26,14 @@ Diseño *dark-first* responsive, carrito de compras persistente y animaciones co
 ## ✨ Características
 
 - 🎬 **Preloader animado** con dibujado del logo (SVG `path-draw`) antes de entrar al sitio
-- 🛍 **Catálogo con 10 productos** en 4 categorías (POS, Videovigilancia, Cómputo, Accesorios) con filtros animados
+- 🛍 **Catálogo con 22 productos** en 5 categorías (POS, Videovigilancia, Cómputo, Accesorios, Licencias) con filtros animados y buscador
 - 🛒 **Carrito persistente** con Zustand + `localStorage`: sobrevive al recargar la página
 - 🗂 **Drawer lateral del carrito** con física *spring* que se abre al agregar un producto
-- 💳 **Checkout** con formulario, métodos de pago, resumen de pedido y confirmación animada
+- 💳 **Checkout** con formulario, 3 métodos de pago (transferencia, efectivo, tarjeta vía MercadoPago), resumen de pedido y confirmación animada
+- 💰 **Precios dinámicos** desde `/api/precios` (proveedor abasteo.mx × margen de ganancia), aplicados una sola vez para evitar cobros duplicados
+- 🛡 **Error Boundary**: si un componente falla, el sitio no se rompe por completo y ofrece recargar
+- 🦴 **Skeleton loaders** mientras se cargan productos y precios
+- 🧭 **Página 404 personalizada** con botones de navegación
 - ✨ **+15 animaciones**: typewriter, parallax con scroll, contadores numéricos, apariciones al hacer *scroll*, efecto *scan*, marquesina y anillo pulsante
 - 📱 **Mobile-first**: menú hamburguesa animado y layout adaptable (bottom-sheet en móvil)
 - 🔍 **SEO básico**: `robots.txt`, `sitemap.xml`, meta description y favicon
@@ -47,6 +53,9 @@ Diseño *dark-first* responsive, carrito de compras persistente y animaciones co
 | [Framer Motion](https://www.framer.com/motion/) | 11 | Animaciones y transiciones |
 | [Zustand](https://zustand.docs.pmnd.rs/) | 5.0 | Estado global del carrito (con persistencia) |
 | [React Router](https://reactrouter.com/) | 6.28 | Navegación tipo SPA |
+| [Vitest](https://vitest.dev/) | 3 | Pruebas unitarias |
+| [Testing Library](https://testing-library.com/) | 16 | Pruebas de componentes React |
+| [Happy DOM](https://happy-dom.dev/) | 15 | Entorno de DOM para pruebas |
 
 ---
 
@@ -81,6 +90,35 @@ Abre **http://localhost:5173/** 🎉
 | `npm run build` | Valida tipos (`tsc --noEmit`) y genera el build en `dist/` |
 | `npm run preview` | Sirve el build de producción localmente |
 | `npm run typecheck` | Solo revisa tipos de TypeScript sin compilar |
+| `npm test` | Ejecuta pruebas unitarias (Vitest) en modo watch |
+| `npm test -- --run` | Ejecuta pruebas una sola vez (modo CI) |
+
+## 🧪 Pruebas
+
+El proyecto incluye pruebas unitarias con **Vitest** + **Testing Library**:
+
+- `src/__tests__/utils.test.ts` — `formatPrice`, `applyMargin`, `slugify`, `classNames`
+- `src/__tests__/cart.test.tsx` — store del carrito (agregar, abrir/cerrar, vaciar)
+
+Ejecutar:
+
+```bash
+# Modo desarrollo (watch)
+npm test
+
+# Modo CI (una sola vez)
+npm test -- --run
+```
+
+## 🔄 CI/CD
+
+Cada push a `master` o `main` ejecuta en GitHub Actions (`.github/workflows/ci.yml`):
+
+1. `npm run typecheck` — verifica tipos de TypeScript
+2. `npm test -- --run` — ejecuta el suite de pruebas
+3. `npm run build` — genera el build de producción
+
+Si cualquiera falla, el push no se considera exitoso.
 
 ## 📁 Estructura del proyecto
 
@@ -89,6 +127,41 @@ softavision-web/
 ├── index.html                  # Punto de entrada HTML (meta, favicon)
 ├── package.json                # Scripts y dependencias
 ├── vite.config.ts              # Config de Vite (puerto 5173, host LAN)
+├── vitest.config.ts            # Config de Vitest (pruebas unitarias)
+├── .github/workflows/ci.yml    # CI/CD: typecheck, tests y build
+├── public/                     # Archivos estáticos (favicon, robots.txt, sitemap.xml)
+├── src/
+│   ├── App.tsx                 # Rutas, Error Boundary, transiciones de página
+│   ├── main.tsx                # Punto de entrada
+│   ├── index.css               # Estilos base, Tailwind, componentes (btn-primary, card, etc.)
+│   ├── components/             # Componentes reutilizables
+│   │   ├── ErrorBoundary.tsx   # Captura errores de React y evita que el sitio se rompa
+│   │   ├── Skeleton.tsx        # Loaders animados (Skeleton, SkeletonText, SkeletonCard)
+│   │   ├── Navbar.tsx, Footer.tsx, CartDrawer.tsx, WhatsAppButton.tsx, ...
+│   │   └── ProductCard.tsx, PaymentInfo.tsx, ...
+│   ├── pages/                  # Páginas (rutas)
+│   │   ├── HomePage.tsx, StorePage.tsx, Productpage.tsx
+│   │   ├── CartPage.tsx, CheckoutPage.tsx, SupportPage.tsx, LegalPage.tsx
+│   │   └── NotFoundPage.tsx    # Página 404 personalizada
+│   ├── data/                   # Datos estáticos
+│   │   ├── products.ts         # Catálogo de productos (22 items)
+│   │   └── site.ts             # Stats, servicios, proyectos, proceso
+│   ├── lib/                    # Utilidades y lógica
+│   │   ├── constants.ts        # Marca, contacto, redes, navegación
+│   │   ├── utils.ts            # formatPrice, applyMargin, slugify, classNames
+│   │   └── payments.ts         # Integración MercadoPago Checkout
+│   ├── store/                  # Estado global (Zustand)
+│   │   ├── carts.ts            # Carrito persistente (localStorage)
+│   │   └── ui.ts               # UI state (interés del usuario)
+│   └── __tests__/              # Pruebas unitarias
+│       ├── setup.ts
+│       ├── utils.test.ts
+│       └── cart.test.tsx
+└── api/                        # Funciones serverless (Vercel)
+    ├── create-preference.ts    # Preferencia de pago MercadoPago
+    ├── send-order.ts           # Notificación de pedido por correo (Resend)
+    ├── precios.ts              # Precios dinámicos del proveedor
+    └── precios-proveedor.json  # Precios base de abasteo.mx
 ├── tsconfig.json               # Configuración de TypeScript
 ├── tailwind.config.js          # Colores, fuentes y animaciones personalizadas
 ├── postcss.config.js           # PostCSS + Tailwind
@@ -289,9 +362,13 @@ git push
 
 ## 📌 Notas y pendientes
 
+- ✅ Precios corregidos: el margen se aplica una sola vez (servidor o precio final de `products.ts`)
+- ✅ Dependencia `resend` agregada para notificaciones de correo
+- ✅ Error Boundary, Skeleton y Página 404 integrados
+- ✅ Pruebas unitarias con Vitest y CI en GitHub Actions
 - ⚠️ **Los precios del catálogo son de ejemplo** — reemplázalos en `src/data/products.ts` con los reales.
-- El **checkout es demostrativo**: confirma el pedido en el navegador (no hay backend/pasarela de pago todavía).
-- El enlace de las **redes sociales** apunta a `#` — cámbialos en `src/lib/constants.ts`.
+- El **checkout es demostrativo** para transferencia/efectivo; para tarjeta configura `MERCADOPAGO_ACCESS_TOKEN` en Vercel.
+- El enlace de las **redes sociales** apunta a cuentas reales de SOFTAVISION.
 - Los textos de `stats`, `projects` y `services` en `src/data/site.ts` son de muestra y se deben ajustar a datos reales.
 
 ---

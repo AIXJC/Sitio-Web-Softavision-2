@@ -1,9 +1,20 @@
 export function formatPrice(value: number): string {
-  return new Intl.NumberFormat('es-MX', {
-    style: 'currency',
-    currency: 'MXN',
+  // Usamos style 'decimal' para obtener el número con separadores de miles
+  // y agregamos el símbolo y moneda manualmente para que sea determinista
+  // en cualquier entorno (Node, navegador, Happy DOM en tests).
+  const numberPart = new Intl.NumberFormat('es-MX', {
+    style: 'decimal',
     maximumFractionDigits: 0,
   }).format(value);
+  return `$${numberPart} MXN`;
+}
+
+/**
+ * Aplica el margen de ganancia (por defecto ×1.3) a un precio base.
+ * Se usa para mostrar precios de venta al público con margen incluido.
+ */
+export function applyMargin(price: number, margen = 1.3): number {
+  return Math.round(price * margen * 100) / 100;
 }
 
 

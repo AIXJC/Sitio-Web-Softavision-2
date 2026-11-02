@@ -2,6 +2,7 @@ import { AnimatePresence, motion, useScroll, useSpring } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import CartDrawer from './components/CartDrawer';
+import ErrorBoundary, { withErrorBoundary } from './components/ErrorBoundary';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import Preloader from './components/Preloader';
@@ -10,6 +11,7 @@ import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
 import HomePage from './pages/HomePage';
 import LegalPage from './pages/LegalPage';
+import NotFoundPage from './pages/NotFoundPage';
 import SupportPage from './pages/SupportPage';
 import Productpage from './pages/Productpage';
 import StorePage from './pages/StorePage';
@@ -56,16 +58,18 @@ export default function App() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25, ease: 'easeOut' }}
           >
-            <Routes location={location}>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/tienda" element={<StorePage />} />
-              <Route path="/producto/:slug" element={<Productpage />} />
-              <Route path="/carrito" element={<CartPage />} />
-              <Route path="/checkout" element={<CheckoutPage />} />
-              <Route path="/soporte" element={<SupportPage />} />
-              <Route path="/legal" element={<LegalPage />} />
-              <Route path="*" element={<HomePage />} />
-            </Routes>
+            <ErrorBoundary>
+              <Routes location={location}>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/tienda" element={<StorePage />} />
+                <Route path="/producto/:slug" element={<Productpage />} />
+                <Route path="/carrito" element={<CartPage />} />
+                <Route path="/checkout" element={<CheckoutPage />} />
+                <Route path="/soporte" element={<SupportPage />} />
+                <Route path="/legal" element={<LegalPage />} />
+                <Route path="*" element={<NotFoundPage />} />
+              </Routes>
+            </ErrorBoundary>
           </motion.div>
         </AnimatePresence>
       </main>

@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import ProductCard from '../components/ProductCard';
 import ProductTitle from '../components/ProductTitle';
 import { CATEGORIES, products, type Category } from '../data/products';
@@ -7,10 +7,44 @@ import { CATEGORIES, products, type Category } from '../data/products';
 export default function StorePage() {
   const [active, setActive] = useState<Category | 'todos'>('todos');
   const [query, setQuery] = useState('');
+  const [preciosDinamicos, setPreciosDinamicos] = useState<Record<string, number>>({});
+  const [preciosCargados, setPreciosCargados] = useState(false);
+
+  // Obtiene precios actualizados del backend (api/precios) con margen ×1.3
+  const fetchPrecios = useCallback(async () => {
+    try {
+      const resp = await fetch('/api/precios', { cache: 'no-store' });
+      if (resp.ok) {
+        const data = await resp.json();
+        setPreciosDinamicos(data.precios ?? {});
+        setPreciosCargados(true);
+      } else {
+        console.warn('No se pudieron cargar precios dinámicos:', resp.status);
+        setPreciosCargados(true);
+      }
+    } catch (err) {
+      console.warn('Backend de precios no disponible (localhost sin servidor). Usando precios estáticos ×1.3.');
+      setPreciosCargados(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchPrecios();
+  }, [fetchPrecios]);
+
+  // Mezcla productos estáticos con precios dinámicos del proveedor.
+  // Los precios de products.ts YA son precios finales de venta al público.
+  // Los precios dinámicos del servidor ya incluyen el margen (MARGEN_GANANCIA).
+  const productosConPrecio = useMemo(() => {
+    return products.map((p) => ({
+      ...p,
+      price: preciosDinamicos[p.id] ?? p.price,
+    }));
+  }, [preciosDinamicos]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return products
+    return productosConPrecio
       .filter((p) => active === 'todos' || p.category === active)
       .filter(
         (p) =>
@@ -19,7 +53,7 @@ export default function StorePage() {
           p.description.toLowerCase().includes(q) ||
           p.category.toLowerCase().includes(q),
       );
-  }, [active, query]);
+  }, [active, query, productosConPrecio]);
 
   return (
     <>
