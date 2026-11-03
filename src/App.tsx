@@ -14,6 +14,7 @@ import LegalPage from './pages/LegalPage';
 import NotFoundPage from './pages/NotFoundPage';
 import SupportPage from './pages/SupportPage';
 import Productpage from './pages/Productpage';
+import RecursosPage from './pages/RecursosPage';
 import StorePage from './pages/StorePage';
 
 function ScrollToTop() {
@@ -66,6 +67,7 @@ export default function App() {
                 <Route path="/carrito" element={<CartPage />} />
                 <Route path="/checkout" element={<CheckoutPage />} />
                 <Route path="/soporte" element={<SupportPage />} />
+                <Route path="/recursos" element={<RecursosPage />} />
                 <Route path="/legal" element={<LegalPage />} />
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>

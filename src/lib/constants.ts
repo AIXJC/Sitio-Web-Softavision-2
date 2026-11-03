@@ -38,6 +38,7 @@ export const NAV_LINKS = [
   { label: 'Tienda', to: '/tienda' },
   { label: 'Carrito', to: '/carrito' },
   { label: 'Soporte', to: '/soporte' },
+  { label: 'Recursos', to: '/recursos' },
 ] as const;
 
 export function whatsappLink(message?: string): string {

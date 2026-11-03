@@ -3,6 +3,104 @@ import { useState } from 'react';
 import { sectors } from '../data/site';
 import Reveal from './Reveal';
 
+function getSectorIconColor(type: string): string {
+  switch (type) {
+    case 'cup':
+      return 'text-amber-400';
+    case 'bag':
+      return 'text-emerald-400';
+    case 'cross':
+      return 'text-rose-400';
+    case 'scale':
+      return 'text-lime-400';
+    case 'monitor':
+      return 'text-violet-400';
+    case 'key':
+      return 'text-indigo-400';
+    default:
+      return 'text-cyan-400';
+  }
+}
+
+function SectorIcon({ type }: { type: string }) {
+  const common = {
+    className: 'h-6 w-6',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 1.8,
+    strokeLinecap: 'round' as const,
+    strokeLinejoin: 'round' as const,
+  };
+
+  switch (type) {
+    case 'cup':
+      return (
+        <svg {...common}>
+          <path d="M7 3h10" />
+          <path d="M7 3l-2 6a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2L17 3" />
+          <path d="M7 13h10" />
+          <path d="M7 13v6a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-6" />
+          <path d="M11 21v-4" />
+        </svg>
+      );
+    case 'bag':
+      return (
+        <svg {...common}>
+          <path d="M6 2 3.5 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-2.5-4Z" />
+          <path d="M3.5 6h17" />
+          <path d="M8 6v12" />
+          <path d="M12 6v12" />
+          <path d="M16 6v12" />
+          <circle cx="12" cy="13" r="1.6" fill="currentColor" stroke="none" />
+        </svg>
+      );
+    case 'cross':
+      return (
+        <svg {...common}>
+          <path d="M12 3v18" />
+          <path d="M6 12h12" />
+          <circle cx="12" cy="12" r="3" fill="currentColor" stroke="none" />
+        </svg>
+      );
+    case 'fruit':
+      return (
+        <svg {...common}>
+          <path d="M5 13c0-4 3.5-7 8-7s8 3 8 7" />
+          {/* Apple */}
+          <circle cx="8" cy="10" r="2" fill="currentColor" stroke="none" />
+          <path d="M7.5 8.8 L7 8.2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+          <ellipse cx="7" cy="7.8" rx="0.8" ry="1.1" fill="currentColor" stroke="none" transform="rotate(-20 7 7.8)" />
+          {/* Pear */}
+          <ellipse cx="15" cy="9.5" rx="2.2" ry="2.5" fill="currentColor" stroke="none" />
+          <path d="M14 7.8 L13.5 7" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+        </svg>
+      );
+    case 'monitor':
+      return (
+        <svg {...common}>
+          <rect x="3" y="4" width="18" height="12" rx="2" />
+          <path d="M9 20h6" />
+          <path d="M12 15v5" />
+          <path d="M3 4h18v4H3z" fill="none" stroke="currentColor" strokeOpacity="0.4" />
+          <rect x="7" y="16" width="3" height="3" rx="1" />
+        </svg>
+      );
+    case 'key':
+      return (
+        <svg {...common}>
+          <path d="M15 4V2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2" />
+          <path d="M15 4h5a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-5" />
+          <path d="M11 14v4" />
+          <path d="M13 14v4" />
+          <circle cx="12" cy="10" r="1.5" fill="currentColor" stroke="none" />
+        </svg>
+      );
+    default:
+      return null;
+  }
+}
+
 export default function BusinessSection() {
   const [open, setOpen] = useState<number | null>(null);
 
@@ -32,9 +130,9 @@ export default function BusinessSection() {
               >
                 <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-brand/20 blur-2xl transition-all duration-500 group-hover:bg-brand/40" />
                 <div className="relative">
-                  <span className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-brand/15 text-lg font-bold text-sky transition-colors group-hover:bg-brand group-hover:text-white">
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
+                  <div className={`mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-500/10 transition-colors group-hover:bg-cyan-500/20 group-hover:text-white ${getSectorIconColor(sector.icon)}`}>
+                    <SectorIcon type={sector.icon} />
+                  </div>
                   <h3 className="text-lg font-semibold text-white">{sector.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-white/60">
                     {sector.description}

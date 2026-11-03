@@ -78,8 +78,7 @@ export default function ResourcesSection() {
                     rel="noopener noreferrer"
                     className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-brand-600 opacity-100 transition-all duration-300 hover:gap-3 hover:text-brand lg:opacity-0 lg:group-hover:opacity-100"
                   >
-                    Abrir recurso <span aria-hidden="true">→</span>
-                    {resource.external && <span className="ml-1 text-xs">(externo)</span>}
+                    Descargar solamente <span aria-hidden="true">→</span>
                   </a>
                 </div>
               </motion.article>

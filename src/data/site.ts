@@ -76,6 +76,7 @@ export const services = [
 export interface Sector {
   title: string;
   description: string;
+  icon: string;
   details: { label: string; text: string }[];
 }
 
@@ -83,6 +84,7 @@ export const sectors: Sector[] = [
   {
     title: 'Restaurantes y Cafés',
     description: 'Autoservicio, mesas, comandas y reportes de caja.',
+    icon: 'cup',
     details: [
       { label: 'Punto de venta', text: 'POS con comandas digitales por mesa o kiosco de autoservicio; envío directo a impresora de cocina y cierre de caja por turno.' },
       { label: 'Página web', text: 'Sitio con menú en línea, galería, ubicación y reservas de mesa desde el celular, integrado a tus redes sociales.' },
@@ -95,6 +97,7 @@ export const sectors: Sector[] = [
   {
     title: 'Tiendas y Retail',
     description: 'Inventario, facturación y control de ventas en tiempo real.',
+    icon: 'bag',
     details: [
       { label: 'Punto de venta', text: 'POS multisesión con códigos de barras, etiquetas de precio, descuentos por artículo y cortes de caja por vendedor.' },
       { label: 'Página web', text: 'Catálogo en línea con compra directa, envíos a domicilio y recogida en tienda, sincronizado con tu inventario.' },
@@ -107,6 +110,7 @@ export const sectors: Sector[] = [
   {
     title: 'Farmacias',
     description: 'Gestión de lote, vencimientos y códigos de barras.',
+    icon: 'cross',
     details: [
       { label: 'Punto de venta', text: 'POS con búsqueda por código de barras o principio activo, recetario y venta controlada con firma del cliente.' },
       { label: 'Página web', text: 'Sitio informativo con servicios, ubicación y consulta de disponibilidad de productos más vendidos.' },
@@ -119,6 +123,7 @@ export const sectors: Sector[] = [
   {
     title: 'Abarrotes',
     description: 'Cobro rápido con báscula y escáner integrados.',
+    icon: 'fruit',
     details: [
       { label: 'Punto de venta', text: 'POS ágil para alto volumen: escáner, báscula integrada, cobro rápido y reapertura de ticket en segundos.' },
       { label: 'Página web', text: 'Folleto digital con promociones de la semana y aviso de productos nuevos, optimizado para WhatsApp.' },
@@ -131,6 +136,7 @@ export const sectors: Sector[] = [
   {
     title: 'Oficinas',
     description: 'Equipos, redes y soporte para tu equipo de trabajo.',
+    icon: 'monitor',
     details: [
       { label: 'Punto de venta', text: 'Módulo de recepción y cobros por horas, sala o servicio, con control de accesos de visitantes.' },
       { label: 'Página web', text: 'Sitio corporativo con tu portafolio de servicios, formulario de contacto y blog para posicionarte en buscadores.' },
@@ -143,6 +149,7 @@ export const sectors: Sector[] = [
   {
     title: 'Hoteles y Salones',
     description: 'Agenda, pagos y videovigilancia integrada.',
+    icon: 'key',
     details: [
       { label: 'Punto de venta', text: 'Recepción con cobro de habitaciones, servicios del spa o salón, consumibles y cortesía por cliente.' },
       { label: 'Página web', text: 'Reservas en línea con calendario de disponibilidad, galería del lugar y confirmación automática por correo.' },
