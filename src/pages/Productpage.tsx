@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Link, Navigate, useParams } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import { getProductBySlug, products } from '../data/products';
 import { formatPrice } from '../lib/utils';
@@ -7,10 +7,16 @@ import { useCart } from '../store/carts';
 
 export default function Productpage() {
   const { slug } = useParams();
+  const navigate = useNavigate();
   const product = slug ? getProductBySlug(slug) : undefined;
   const add = useCart((s) => s.add);
 
   if (!product) return <Navigate to="/tienda" replace />;
+
+  const handleBuyNow = () => {
+    add(product);
+    navigate('/checkout');
+  };
 
   const related = products
     .filter((p) => p.category === product.category && p.id !== product.id)
@@ -44,7 +50,6 @@ export default function Productpage() {
                 alt={product.name}
                 className="aspect-[4/3] w-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
-              <span className="pointer-events-none absolute inset-x-0 top-0 h-16 animate-scan bg-gradient-to-b from-sky/25 to-transparent" />
               <span className="absolute left-4 top-4 rounded-full bg-ink/80 px-3 py-1 text-xs text-sky backdrop-blur">
                 {product.categoryLabel}
               </span>
@@ -65,6 +70,14 @@ export default function Productpage() {
                 {formatPrice(product.price)}
               </motion.p>
               <p className="mt-5 leading-relaxed text-white/65">{product.description}</p>
+              {product.stock !== undefined && (
+                <p className="mt-3 text-sm">
+                  <span className="text-white/50">Disponibilidad: </span>
+                  <span className={product.stock > 0 ? 'text-emerald-400 font-semibold' : 'text-rose-400 font-semibold'}>
+                    {product.stock > 0 ? `${product.stock} piezas disponibles` : 'Agotado'}
+                  </span>
+                </p>
+              )}
 
               <div className="mt-7">
                 <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-white/70">
@@ -97,13 +110,19 @@ export default function Productpage() {
                 <motion.button
                   whileTap={{ scale: 0.96 }}
                   onClick={() => add(product)}
-                  className="btn-primary"
+                  disabled={product.stock !== undefined && product.stock <= 0}
+                  className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Agregar al carrito
+                  {product.stock !== undefined && product.stock <= 0 ? 'Agotado' : 'Agregar al carrito'}
                 </motion.button>
-                <Link to="/checkout" className="btn-ghost">
-                  Comprar ahora
-                </Link>
+                <motion.button
+                  whileTap={{ scale: 0.96 }}
+                  onClick={handleBuyNow}
+                  disabled={product.stock !== undefined && product.stock <= 0}
+                  className="btn-ghost disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {product.stock !== undefined && product.stock <= 0 ? 'Agotado' : 'Comprar ahora'}
+                </motion.button>
               </motion.div>
             </motion.div>
           </div>

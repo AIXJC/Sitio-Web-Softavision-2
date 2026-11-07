@@ -10,16 +10,19 @@ const solutions = [
     title: 'Punto de venta completo',
     image: pos,
     items: ['Terminales y cajas', 'Software de inventario', 'Facturación electrónica'],
+    link: '/producto/paquete-pos-completo',
   },
   {
     title: 'Seguridad perimetral',
     image: camara,
     items: ['Cámaras IP y dome', 'Grabación en la nube', 'Monitoreo desde el celular'],
+    link: '/producto/paquete-seguridad-perimetral',
   },
   {
     title: 'Estaciones de trabajo',
     image: pcGamer,
     items: ['Laptops y PCs', 'Armado gamer a medida', 'Redes y conectividad'],
+    link: '/producto/paquete-estaciones-trabajo',
   },
 ];
 
@@ -56,9 +59,9 @@ export default function Solutions() {
                     alt={sol.title}
                     className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-transparent" />
+                  {/* gradiente removido */}
                 </div>
-                <div className="relative -mt-16 p-7">
+                <div className="relative p-7">
                   <h3 className="text-xl font-bold text-white">{sol.title}</h3>
                   <ul className="mt-4 space-y-2.5">
                     {sol.items.map((item) => (
@@ -71,7 +74,7 @@ export default function Solutions() {
                     ))}
                   </ul>
                   <Link
-                    to="/tienda"
+                    to={sol.link}
                     className="mt-6 inline-flex text-sm font-semibold text-sky transition-transform group-hover:translate-x-1"
                   >
                     Ver más →

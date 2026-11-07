@@ -26,11 +26,17 @@ export const useCart = create<CartState>()(
       add: (product, qty = 1) =>
         set((state) => {
           const existing = state.items.find((i) => i.product.id === product.id);
+          const currentQty = existing ? existing.qty : 0;
+          const maxQty = product.stock ?? Infinity;
+          const newQty = Math.min(currentQty + qty, maxQty);
+          if (newQty <= currentQty && maxQty > 0) return state; // No stock available
           const items = existing
             ? state.items.map((i) =>
-                i.product.id === product.id ? { ...i, qty: i.qty + qty } : i,
+                i.product.id === product.id ? { ...i, qty: newQty } : i,
               )
-            : [...state.items, { product, qty }];
+            : newQty > 0
+              ? [...state.items, { product, qty: newQty }]
+              : state.items;
           return { items, isOpen: true };
         }),
       remove: (id) =>

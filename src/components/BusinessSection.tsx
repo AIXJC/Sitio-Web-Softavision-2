@@ -130,8 +130,8 @@ export default function BusinessSection() {
               >
                 <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-brand/20 blur-2xl transition-all duration-500 group-hover:bg-brand/40" />
                 <div className="relative">
-                  <div className={`mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-500/10 transition-colors group-hover:bg-cyan-500/20 group-hover:text-white ${getSectorIconColor(sector.icon)}`}>
-                    <SectorIcon type={sector.icon} />
+                  <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-500/10 text-lg font-bold text-cyan-400 transition-colors group-hover:bg-cyan-500/20 group-hover:text-white">
+                    {i + 1}
                   </div>
                   <h3 className="text-lg font-semibold text-white">{sector.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-white/60">

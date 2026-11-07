@@ -35,7 +35,7 @@ export interface Product {
   short: string;
   description: string;
   specs: string[];
-  featured?: boolean;
+  stock?: number; // Cantidad de piezas disponibles
 }
 
 export const CATEGORIES: { value: Category | 'todos'; label: string }[] = [
@@ -355,6 +355,51 @@ export const products: Product[] = [
     short: 'Terminal POS Android 11 de 15.6" con procesador RK3568.',
     description: 'Sistema de punto de venta Qian QOS-A09TC-01 con pantalla táctil de 15.6", procesador RK3568 de 2 GHz, 2 GB de RAM, 16 GB de almacenamiento y sistema Android 11. Terminal lista para usar en comercios, restaurantes y tiendas.',
     specs: ['Pantalla: 15.6" táctil', 'Procesador: RK3568 2 GHz', 'RAM: 2 GB', 'Almacenamiento: 16 GB', 'Sistema: Android 11'],
+  },
+  {
+    id: 'sol-pos-paquete',
+    slug: 'paquete-pos-completo',
+    name: 'Paquete Punto de Venta Completo',
+    category: 'pos',
+    categoryLabel: 'Sistemas POS',
+    price: 12999,
+    image: posTablet,
+    short: 'Terminal, software, impresora y cajón listos para operar.',
+    description:
+      'Paquete completo de punto de venta que incluye terminal con tablet, impresora térmica, cajón de dinero y software de inventario, facturación y reportes. Listo para instalar en tu negocio el mismo día.',
+    specs: ['Terminal con tablet 10"', 'Impresora térmica 58mm', 'Cajón de dinero', 'Software POS en la nube', 'Instalación y capacitación incluida'],
+    featured: true,
+    stock: 5,
+  },
+  {
+    id: 'sol-seg-paquete',
+    slug: 'paquete-seguridad-perimetral',
+    name: 'Paquete Seguridad Perimetral',
+    category: 'seguridad',
+    categoryLabel: 'Videovigilancia',
+    price: 15999,
+    image: camaraDomo,
+    short: 'Cámaras IP, grabador NVR y monitoreo desde tu celular.',
+    description:
+      'Paquete completo de videovigilancia que incluye cámaras IP dome, grabador NVR de 4 canales, cableado estructurado y acceso remoto desde tu celular. Instalación certificada incluida.',
+    specs: ['4 cámaras IP dome 4MP', 'Grabador NVR 4 canales', 'Cableado estructurado', 'Acceso remoto desde celular', 'Instalación certificada'],
+    featured: true,
+    stock: 3,
+  },
+  {
+    id: 'sol-comp-paquete',
+    slug: 'paquete-estaciones-trabajo',
+    name: 'Paquete Estaciones de Trabajo',
+    category: 'computo',
+    categoryLabel: 'Cómputo',
+    price: 24999,
+    image: pcGamer,
+    short: 'Laptops, PCs y red empresarial armados a tu medida.',
+    description:
+      'Paquete completo de estaciones de trabajo que incluye laptops o PCs de escritorio, armado gamer a medida, red Wi-Fi empresarial y cableado estructurado. Diseñado para tu negocio.',
+    specs: ['Laptops o PCs a medida', 'Armado gamer personalizado', 'Red Wi-Fi empresarial', 'Cableado estructurado', 'Soporte mensual incluido'],
+    featured: true,
+    stock: 4,
   },
 ];
 

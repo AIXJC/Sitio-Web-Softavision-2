@@ -46,7 +46,7 @@ export default {
       animation: {
         marquee: 'marquee 30s linear infinite',
         'pulse-ring': 'pulse-ring 1.8s cubic-bezier(0.2, 0.6, 0.4, 1) infinite',
-        scan: 'scan 3.5s ease-in-out infinite',
+        scan: 'scan 3.5s ease-in-out',
       },
     },
   },

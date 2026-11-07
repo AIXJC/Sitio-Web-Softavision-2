@@ -35,10 +35,7 @@ export default function Projects() {
                   whileHover={{ scale: 1.06 }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/50 to-transparent" />
-                {/* barras de escaneo de seguridad */}
-                <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                  <div className="absolute inset-x-0 top-1/3 h-px animate-scan bg-sky/60" />
-                </div>
+                {/* scan bar removida */}
               </div>
               <div className="absolute inset-x-0 bottom-0 p-6">
                 <span className="inline-block rounded-full border border-sky/40 bg-ink/70 px-3 py-1 text-[11px] font-medium text-sky backdrop-blur">

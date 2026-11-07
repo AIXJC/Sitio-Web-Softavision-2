@@ -19,9 +19,7 @@ export default function ProductCard({ product }: { product: Product }) {
           alt={product.name}
           loading="lazy"
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-          whileHover={{ rotate: 1.5 }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent" />
         <span className="absolute left-3 top-3 rounded-full bg-ink/80 px-3 py-1 text-[11px] font-medium text-sky backdrop-blur">
           {product.categoryLabel}
         </span>
@@ -30,8 +28,6 @@ export default function ProductCard({ product }: { product: Product }) {
             ★ Destacado
           </span>
         )}
-        {/* efecto escáner */}
-        <span className="pointer-events-none absolute inset-x-0 top-0 h-8 animate-scan bg-gradient-to-b from-sky/30 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
       </Link>
 
       <div className="flex flex-1 flex-col p-5">
@@ -43,6 +39,13 @@ export default function ProductCard({ product }: { product: Product }) {
         <p className="mt-1.5 flex-1 text-sm leading-relaxed text-white/55">
           {product.short}
         </p>
+        {product.stock !== undefined && (
+          <p className="mt-1 text-xs">
+            <span className={product.stock > 0 ? 'text-emerald-400' : 'text-rose-400'}>
+              {product.stock > 0 ? `${product.stock} disponibles` : 'Agotado'}
+            </span>
+          </p>
+        )}
         <div className="mt-4 flex items-center justify-between gap-3">
           <span className="text-lg font-bold text-gradient">{formatPrice(product.price)}</span>
           <div className="flex gap-2">

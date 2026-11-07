@@ -11,7 +11,7 @@ export default function WhatsAppButton() {
         transition={{ delay: 3.5, duration: 0.5 }}
         className="pointer-events-none hidden items-center gap-2 rounded-xl border border-white/10 bg-ink-800/90 px-4 py-2 text-sm font-medium text-white/85 shadow-lg backdrop-blur sm:flex"
       >
-        ¿Cotiza gratis?
+        Cotiza Gratis!
         <span aria-hidden="true">💬</span>
       </motion.span>
 

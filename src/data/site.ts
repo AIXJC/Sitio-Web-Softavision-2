@@ -4,27 +4,27 @@ import pcGamer from '../../assets/aigc/images/prod-computadora_1791430981_000.pn
 import laptopUltrabook from '../../assets/aigc/images/prod-laptop_1791430976_000.png';
 
 export const stats = [
-  { value: 8, suffix: '+', label: 'Años de experiencia' },
+  { value: 4, suffix: '+', label: 'Años de experiencia' },
   { value: 450, suffix: '+', label: 'Negocios equipados' },
   { value: 1200, suffix: '+', label: 'Equipos instalados' },
-  { value: 98, suffix: '%', label: 'Clientes satisfechos' },
+  { value: 100, suffix: '%', label: 'Clientes satisfechos' },
 ];
 
 export const services = [
   {
-    title: 'Sistemas POS',
+    title: 'Sistemas de Punto de Venta',
     description:
       'Puntos de venta completos: terminales, cajas, tablets y software de inventario, facturación y reportes.',
     icon: 'pos' as const,
   },
   {
-    title: 'Videovigilancia',
+    title: 'Sistema de Videovigilancia',
     description:
       'Cámaras IP y analógicas, grabadores NVR/DVR, instalación certificada y monitoreo desde tu celular.',
     icon: 'camera' as const,
   },
   {
-    title: 'Cómputo y Gaming',
+    title: 'Venta de Equipos (Computo y Gaming)',
     description:
       'Laptops, computadoras de escritorio y PCs gamer armadas a la medida de tu presupuesto.',
     icon: 'cpu' as const,
@@ -66,9 +66,9 @@ export const services = [
     icon: 'camera' as const,
   },
   {
-    title: 'Atención Multicanal 24/7',
+    title: 'Desarrollo de Paginas Web',
     description:
-      'Escríbenos por WhatsApp, llámanos directamente o contáctanos por correo electrónico. Estamos disponibles los 365 días del año para soporte y cotizaciones.',
+      'Diseñamos y desarrollamos páginas web profesionales, responsivas y optimizadas para tu negocio. Incluye diseño a medida, SEO y soporte técnico.',
     icon: 'phone' as const,
   },
 ];
