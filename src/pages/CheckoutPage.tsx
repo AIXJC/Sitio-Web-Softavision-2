@@ -8,7 +8,7 @@ import { payWithCard } from '../lib/payments';
 import { selectCount, selectTotal, useCart } from '../store/carts';
 
 const inputClass =
-  'w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/40 outline-none transition-colors focus:border-brand';
+  'max-w-full w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/40 outline-none transition-colors focus:border-brand';
 
 const PAYMENT_METHODS = [
   { id: 'transferencia', label: 'Transferencia bancaria' },
@@ -162,7 +162,7 @@ export default function CheckoutPage() {
         subtitle="Completa tus datos y coordinamos la entrega e instalación."
       />
 
-      <section className="py-16">
+      <section className="py-10 sm:py-16">
         <div className="container-site">
           <AnimatePresence mode="wait">
             {done ? (
@@ -208,9 +208,9 @@ export default function CheckoutPage() {
                 onSubmit={handleSubmit}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="grid gap-10 lg:grid-cols-5"
+                className="grid gap-6 sm:gap-10 md:grid-cols-2 lg:grid-cols-5 lg:gap-8"
               >
-                <div className="space-y-5 lg:col-span-3">
+                <div className="space-y-5 col-span-full md:col-span-2 lg:col-span-3">
                   <h2 className="text-xl font-bold">Datos de contacto</h2>
                   <div className="grid gap-4 sm:grid-cols-2">
                     <input
@@ -276,7 +276,7 @@ export default function CheckoutPage() {
                   </AnimatePresence>
                 </div>
 
-                <aside className="h-fit rounded-2xl border border-white/10 bg-ink-800 p-6 lg:col-span-2 lg:sticky lg:top-28">
+                <aside className="w-full rounded-2xl border border-white/10 bg-ink-800 p-4 sm:p-6 col-span-full md:col-span-2 lg:col-span-2 lg:sticky lg:top-28 pb-20">
                   <h2 className="text-lg font-bold">Tu pedido</h2>
                   <ul className="mt-4 space-y-3">
                     {items.map((item) => (
@@ -286,26 +286,21 @@ export default function CheckoutPage() {
                           alt=""
                           className="h-12 w-12 rounded-lg object-cover"
                         />
-                        <span className="flex-1 text-white/70">
-                          {item.product.name}
+                        <span className="flex-1 min-w-0 text-white/70">
+                          <span className="truncate block">{item.product.name}</span>
                           <span className="block text-xs text-white/40">x{item.qty}</span>
                         </span>
-                        <span className="text-white/80">
+                        <span className="text-white/80 break-all">
                           {formatPrice(item.product.price * item.qty)}
                         </span>
                       </li>
                     ))}
                   </ul>
-                  <div className="mt-5 flex justify-between border-t border-white/10 pt-4 font-bold">
-                    <span>Total ({count})</span>
-                    <motion.span
-                      key={total}
-                      initial={{ scale: 1.1 }}
-                      animate={{ scale: 1 }}
-                      className="text-gradient"
-                    >
+                  <div className="mt-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-t border-white/10 pt-4 font-bold">
+                    <span className="min-w-0 truncate">Total ({count})</span>
+                    <span className="text-gradient break-all">
                       {formatPrice(total)}
-                    </motion.span>
+                    </span>
                   </div>
                   <motion.button
                     whileTap={{ scale: 0.97 }}

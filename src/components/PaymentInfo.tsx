@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+﻿import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { PAYMENT_ACCOUNT } from '../lib/constants';
 
@@ -22,24 +22,20 @@ function CopyField({ label, value, mono = true }: CopyFieldProps) {
   }
 
   return (
-    <div className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-      <div className="min-w-0">
+    <div className="flex flex-col gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="min-w-0 flex-1">
         <p className="text-xs uppercase tracking-wide text-white/40">{label}</p>
-        <p
-          className={`truncate text-sm font-semibold text-white ${
-            mono ? 'font-mono tracking-wide' : ''
-          }`}
-        >
+        <p className={`text-xs font-semibold text-white break-all ${mono ? 'font-mono tracking-wide' : ''}`}>
           {value}
         </p>
       </div>
       <button
         type="button"
         onClick={handleCopy}
-        className="btn-ghost shrink-0 px-3 py-1.5 text-xs"
+        className="shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium text-white/60 transition-colors hover:bg-white/10 hover:text-white"
         aria-label={`Copiar ${label}`}
       >
-        {copied ? '✓ Copiado' : 'Copiar'}
+        {copied ? 'âœ“ Copiado' : 'Copiar'}
       </button>
     </div>
   );
@@ -64,11 +60,11 @@ export default function PaymentInfo({ concept }: PaymentInfoProps) {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35 }}
-      className="space-y-3 rounded-2xl border border-brand/30 bg-brand/5 p-5"
+      className="space-y-3 rounded-2xl border border-brand/30 bg-brand/5 p-4 sm:p-5"
     >
       <div className="flex items-center gap-3">
         <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-brand to-sky text-lg">
-          🏦
+          ðŸ¦
         </span>
         <div>
           <h3 className="text-base font-bold">Datos para tu transferencia</h3>
@@ -78,7 +74,7 @@ export default function PaymentInfo({ concept }: PaymentInfoProps) {
         </div>
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="grid gap-3 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
         {fields.map((f) => (
           <CopyField key={f.label} label={f.label} value={f.value} mono={f.mono} />
         ))}
@@ -95,3 +91,4 @@ export default function PaymentInfo({ concept }: PaymentInfoProps) {
     </motion.div>
   );
 }
+
