@@ -24,7 +24,7 @@ export default function Contact() {
     'w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/40 outline-none transition-colors focus:border-brand';
 
   return (
-    <section id="contacto" className="relative scroll-mt-24 py-24">
+    <section id="contacto" className="relative scroll-mt-24 py-12 sm:py-24">
       <div className="container-site grid gap-12 lg:grid-cols-2">
         <Reveal>
           <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-sky">

@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { services } from '../data/site';
 import { useUI } from '../store/ui';
 import Reveal from './Reveal';
+import ShowMore from './ShowMore';
 
 function ServiceIcon({ type }: { type: string }) {
   const common = { className: 'h-7 w-7', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.6, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
@@ -78,7 +79,7 @@ export default function ServicesSection() {
   }
 
   return (
-    <section className="section-light curve-a py-24">
+    <section className="section-light curve-a py-12 sm:py-24">
       <span aria-hidden="true" className="bubble animate-drift-a right-[8%] top-[12%] hidden h-24 w-24 sm:block" />
       <span aria-hidden="true" className="bubble-solid animate-drift-b left-[5%] top-[55%] hidden h-16 w-16 sm:block" />
       <span aria-hidden="true" className="bubble-solid animate-float-up right-[12%] top-[38%] h-10 w-10" style={{ animationDuration: '10s' }} />
@@ -100,36 +101,38 @@ export default function ServicesSection() {
         </Reveal>
 
         <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((service, i) => (
-            <Reveal key={service.title} delay={(i % 3) * 0.1}>
-              <motion.article
-                whileHover={{ y: -10 }}
-                transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-                className="group relative h-full overflow-hidden rounded-3xl border border-ink/10 bg-white p-7 shadow-xl shadow-brand/10 transition-shadow duration-500 hover:shadow-2xl hover:shadow-brand/20"
-              >
-                <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                  <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-sky/30 blur-3xl" />
-                  <div className="absolute -bottom-12 -left-12 h-40 w-40 rounded-full bg-brand/10 blur-3xl" />
-                </div>
-                <div className="relative flex h-full flex-col">
-                  <span className="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-brand to-sky text-white shadow-lg shadow-brand/30 transition-transform duration-300 group-hover:rotate-3 group-hover:scale-110">
-                    <ServiceIcon type={service.icon} />
-                  </span>
-                  <h3 className="text-lg font-bold text-ink">{service.title}</h3>
-                  <p className="mt-3 flex-1 text-sm leading-relaxed text-ink/65">
-                    {service.description}
-                  </p>
-                  <button
-                    type="button"
-                    onClick={() => goToQuote(service.title)}
-                    className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-brand-600 opacity-100 transition-all duration-300 hover:gap-3 hover:text-brand lg:opacity-0 lg:group-hover:opacity-100"
-                  >
-                    Cotizar <span aria-hidden="true">→</span>
-                  </button>
-                </div>
-              </motion.article>
-            </Reveal>
-          ))}
+          <ShowMore mobileLimit={2} label="servicios">
+            {services.map((service, i) => (
+              <Reveal key={service.title} delay={(i % 3) * 0.1}>
+                <motion.article
+                  whileHover={{ y: -10 }}
+                  transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+                  className="group relative h-full overflow-hidden rounded-3xl border border-ink/10 bg-white p-7 shadow-xl shadow-brand/10 transition-shadow duration-500 hover:shadow-2xl hover:shadow-brand/20"
+                >
+                  <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                    <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-sky/30 blur-3xl" />
+                    <div className="absolute -bottom-12 -left-12 h-40 w-40 rounded-full bg-brand/10 blur-3xl" />
+                  </div>
+                  <div className="relative flex h-full flex-col">
+                    <span className="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-brand to-sky text-white shadow-lg shadow-brand/30 transition-transform duration-300 group-hover:rotate-3 group-hover:scale-110">
+                      <ServiceIcon type={service.icon} />
+                    </span>
+                    <h3 className="text-lg font-bold text-ink">{service.title}</h3>
+                    <p className="mt-3 flex-1 text-sm leading-relaxed text-ink/65">
+                      {service.description}
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => goToQuote(service.title)}
+                      className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-brand-600 opacity-100 transition-all duration-300 hover:gap-3 hover:text-brand lg:opacity-0 lg:group-hover:opacity-100"
+                    >
+                      Cotizar <span aria-hidden="true">→</span>
+                    </button>
+                  </div>
+                </motion.article>
+              </Reveal>
+            ))}
+          </ShowMore>
         </div>
       </div>
     </section>

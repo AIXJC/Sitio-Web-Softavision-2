@@ -5,7 +5,7 @@ import Reveal from './Reveal';
 
 export default function CtaBanner() {
   return (
-    <section className="relative py-16">
+    <section className="relative py-8 sm:py-16">
       <div className="container-site">
         <Reveal>
           <motion.div

@@ -26,7 +26,7 @@ function Counter({ value, suffix }: { value: number; suffix: string }) {
 
 export default function About() {
   return (
-    <section className="section-light curve-b py-24">
+    <section className="section-light curve-b py-12 sm:py-24">
       <span aria-hidden="true" className="bubble animate-drift-b left-[8%] top-[12%] hidden h-24 w-24 sm:block" />
       <span aria-hidden="true" className="bubble-solid animate-drift-a right-[9%] top-[58%] hidden h-16 w-16 sm:block" />
       <span aria-hidden="true" className="bubble animate-float-up right-[20%] top-[70%] h-10 w-10" style={{ animationDuration: '12s' }} />

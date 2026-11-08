@@ -34,7 +34,7 @@ function ResourceIcon({ type }: { type: string }) {
 
 export default function ResourcesSection() {
   return (
-    <section className="section-light curve-b py-24">
+    <section className="section-light curve-b py-12 sm:py-24">
       <span aria-hidden="true" className="bubble animate-drift-a right-[10%] top-[20%] hidden h-24 w-24 sm:block" />
       <span aria-hidden="true" className="bubble-solid animate-drift-b left-[10%] top-[60%] hidden h-20 w-20 sm:block" />
       <div className="container-site">

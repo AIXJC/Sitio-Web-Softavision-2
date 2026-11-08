@@ -4,7 +4,7 @@ import Reveal from './Reveal';
 
 export default function Process() {
   return (
-    <section className="relative overflow-hidden bg-ink-800/60 py-24">
+    <section className="relative overflow-hidden bg-ink-800/60 py-12 sm:py-24">
       <div className="absolute inset-0 opacity-[0.05]" aria-hidden="true">
         <div
           className="h-full w-full"

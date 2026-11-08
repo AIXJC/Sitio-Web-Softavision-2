@@ -11,7 +11,7 @@ export const CONTACT = {
   whatsapp: '528131244540',
   email: 'alexanderucost@icloud.com',
   address: 'Nuevo León, México',
-  hours: 'Ventas: Lun a Sáb · 8:00 a.m. – 6:00 p.m.',
+  hours: 'Lun a Sáb · 8:00 a.m. – 6:00 p.m.',
   support: 'Soporte técnico 24/7 · Los 365 días',
 } as const;
 

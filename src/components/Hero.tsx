@@ -104,7 +104,7 @@ export default function Hero() {
     <section
       ref={ref}
       onMouseMove={handleMouse}
-      className="relative flex min-h-screen items-center overflow-hidden pt-24"
+      className="relative flex min-h-screen items-center overflow-hidden pt-0"
     >
       <motion.div style={{ y: yBg, x: bgX }} className="absolute inset-0 -z-10" aria-hidden="true">
         <div className="absolute inset-0 bg-gradient-to-br from-ink via-ink-800 to-ink" />
@@ -139,7 +139,7 @@ export default function Hero() {
 
       <motion.div
         style={{ y: yContent }}
-        className="container-site relative z-10 grid items-center gap-16 py-16 lg:grid-cols-2"
+        className="container-site relative z-10 grid items-center gap-16 py-4 lg:grid-cols-2"
       >
         <div>
           <motion.div

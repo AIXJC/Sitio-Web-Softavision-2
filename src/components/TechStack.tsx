@@ -6,7 +6,7 @@ export default function TechStack() {
   const items = [...techStack, ...techStack];
 
   return (
-    <section className="relative overflow-hidden py-20">
+    <section className="relative overflow-hidden py-10 sm:py-20">
       <div className="container-site">
         <Reveal className="text-center">
           <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-sky">

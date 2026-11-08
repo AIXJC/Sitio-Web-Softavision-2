@@ -28,7 +28,7 @@ const solutions = [
 
 export default function Solutions() {
   return (
-    <section className="section-light curve-b py-24">
+    <section className="section-light curve-b py-12 sm:py-24">
       <span aria-hidden="true" className="bubble animate-drift-b left-[10%] top-[14%] hidden h-20 w-20 sm:block" />
       <span aria-hidden="true" className="bubble-solid animate-drift-a right-[6%] top-[60%] hidden h-24 w-24 sm:block" />
       <span aria-hidden="true" className="bubble animate-float-up left-[16%] top-[60%] h-12 w-12" style={{ animationDuration: '11s' }} />
